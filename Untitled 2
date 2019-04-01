@@ -1,0 +1,10 @@
+program pascal1;
+begin
+procedure Acceso;
+var
+	clave: INTEGER;
+begin
+	clave := 4;
+end;
+	
+end.
