@@ -1,0 +1,52 @@
+
+import java_cup.runtime.*;
+
+/* TERMINALES */
+
+terminal 				identifier, numeric_integer_const, numeric_real_const, string_const;
+terminal 				program, semicolon, dot, begin, end, constant, equal, var, colon;
+terminal 				comma, procedure, function, openParenthesis, closeParenthesis;
+terminal 				INTEGER, REAL, assig, plus, minus, multiplication, div, mod;
+
+/* NO TERMINALES */
+
+non terminal 			PRG, BLQ, DCLLIST, SENTLIST, DCL, SENT, DEFCTE, DEFVAR, DEFPROC, DEFFUN;
+non terminal			CTELIST, SIMPVALUE, DEFVARLIST, VARLIST, TBAS, FORMAL_PARAMLIST, FORMAL_PARAM;
+non terminal			ASIG, PROC_CALL, ID, EXP, OP, FACTOR, OPARIT, SUBPARAMLIST, EXPLIST;
+non terminal			lambda;
+
+/* GRAMATICA */
+
+lambda ::= ;
+
+PRG ::= program identifier semicolon BLQ dot;
+BLQ ::= DCLLIST begin SENTLIST end;
+DCLLIST ::= lambda | DCLLIST DCL;
+SENTLIST ::= SENT | SENTLIST SENT;
+
+DCL ::= DEFCTE | DEFVAR | DEFPROC | DEFFUN;
+DEFCTE ::= constant CTELIST;
+CTELIST ::= identifier equal SIMPVALUE semicolon | CTELIST identifier equal SIMPVALUE semicolon;
+SIMPVALUE ::= numeric_integer_const | numeric_real_const | string_const;
+
+DEFVAR ::= var DEFVARLIST semicolon;
+DEFVARLIST ::= VARLIST colon TBAS | DEFVARLIST semicolon VARLIST colon TBAS;
+VARLIST ::= identifier | identifier comma VARLIST;
+DEFPROC ::= procedure identifier FORMAL_PARAMLIST semicolon BLQ semicolon;
+DEFFUN ::= function identifier FORMAL_PARAMLIST colon TBAS semicolon BLQ semicolon;
+FORMAL_PARAMLIST ::= lambda | openParenthesis FORMAL_PARAM closeParenthesis;
+FORMAL_PARAM ::= VARLIST colon TBAS | VARLIST colon TBAS semicolon FORMAL_PARAM;
+TBAS ::= INTEGER | REAL;
+
+SENT ::= ASIG semicolon | PROC_CALL semicolon;
+ASIG ::= ID assig EXP;
+ID ::= identifier;
+EXP ::= EXP OP EXP | FACTOR;
+OP ::= OPARIT;
+OPARIT ::= plus | minus | multiplication | div | mod;
+FACTOR ::= SIMPVALUE | openParenthesis EXP closeParenthesis | identifier SUBPARAMLIST;
+SUBPARAMLIST ::= lambda | openParenthesis EXPLIST closeParenthesis;
+EXPLIST ::= EXP | EXP comma EXPLIST;
+PROC_CALL ::= identifier SUBPARAMLIST;
+
+
