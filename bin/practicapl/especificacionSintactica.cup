@@ -1,4 +1,4 @@
-
+package practicapl;
 import java_cup.runtime.*;
 
 /* TERMINALES */

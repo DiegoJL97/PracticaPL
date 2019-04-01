@@ -25,7 +25,7 @@ public class PracticaPL {
                 	String file = scan.nextLine();
                     lexico = new AnalizadorLexico(new java.io.FileReader(file));   
                     parser sintactico = new parser(lexico);
-                    sintactico.parse();
+                    //	sintactico.parse();
                 }
                 catch (java.io.FileNotFoundException e) {
                     System.out.println("Archivo no encontrado.");
