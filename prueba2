@@ -1,8 +1,0 @@
-program asd;
-var
-lado1,lado2:real;
-angulo,numero1:integer;
-caracter1,caracter2:char;
-begin
-
-end.

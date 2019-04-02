@@ -24,7 +24,7 @@ precedence left plus, minus, multiplication, div, mod, equal;
 
 PRG::= program identifier semicolon BLQ dot;
 BLQ::= DCLLIST begin SENTLIST end;
-DCLLIST::= DCL | ;
+DCLLIST::= DCLLIST DCL | ;
 SENTLIST::= SENT | SENTLIST SENT;
 
 DCL::= DEFVAR | DEFCTE | DEFPROC | DEFFUN;

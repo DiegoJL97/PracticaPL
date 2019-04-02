@@ -1,6 +1,0 @@
-program test; 
-const test = 20;
-begin 
-hola := 5;
-end .
-
