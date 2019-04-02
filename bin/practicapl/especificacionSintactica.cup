@@ -26,7 +26,7 @@ PRG::= program identifier semicolon BLQ dot;
 BLQ::= DCLLIST begin end;
 DCLLIST::= DCL;
 
-DCL::= DEFVAR | DEFCTE;
+DCL::= DEFVAR | DEFCTE | DEFPROC | DEFFUN;
 DEFVAR::= var DEFVARLIST semicolon;
 DEFVARLIST::= VARLIST colon TBAS | DEFVARLIST semicolon VARLIST colon TBAS;
 VARLIST::= identifier | identifier comma VARLIST;
@@ -34,7 +34,10 @@ TBAS::= INTEGER | REAL;
 DEFCTE::= constant CTELIST;
 CTELIST::= identifier equal SIMPVALUE semicolon | CTELIST identifier equal SIMPVALUE semicolon;
 SIMPVALUE::= numeric_integer_const | numeric_real_const | string_const;
-
+DEFPROC::= procedure identifier FORMAL_PARAMLIST semicolon BLQ semicolon;
+FORMAL_PARAMLIST::= openParenthesis FORMAL_PARAM closeParenthesis;
+FORMAL_PARAM::= VARLIST colon TBAS | VARLIST colon TBAS semicolon FORMAL_PARAM;
+DEFFUN::= function identifier FORMAL_PARAMLIST colon TBAS semicolon BLQ semicolon;
 
 
 

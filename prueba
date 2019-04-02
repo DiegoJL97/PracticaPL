@@ -1,5 +1,10 @@
 program test; 
-var hola,id2: INTEGER ;
+
+function hola (test:REAL ) : REAL ; 
+const prueba = 5; 
+begin 
+end ;
+
 begin 
 end .
 
