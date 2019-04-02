@@ -1,10 +1,12 @@
-program pascal1;
-begin
-procedure Acceso;
-var
-	clave: INTEGER;
-begin
-	clave := 4;
-end;
-	
-end.
+program ProcConParametros;
+var dato: INTEGER;
+ procedure saludo (nombre: string);
+ var
+ 	prueba:INTEGER;
+ begin
+	prueba:=2;
+ end;
+
+ begin                
+ 	 dato := 2;
+ end.                 
