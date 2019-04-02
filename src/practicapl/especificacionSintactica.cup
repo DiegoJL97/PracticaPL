@@ -1,41 +1,6 @@
 package practicapl;
 import java_cup.runtime.*;
 
-
-parser code {: 
-    public static PrintWriter writer = null; 
-    public void syntax_error(Symbol cur_token) {            
-        if(cur_token!=null){
-            if (cur_token.sym == EOF_sym()){
-                report_error("Fin de archivo inesperado", null);
-            }
-            else if (cur_token.value == null){
-                report_error("ERROR en el Simbolo n: "+cur_token.sym+"\n(Linea " + cur_token.left + " / Columna "+cur_token.right+")\n", null);
-            }
-            else{
-                report_error( "ERROR_SINTACTICO(" + cur_token.left + " / "+cur_token.right+"): Puede faltar ; .Mala construccion de la frase cerca de: " + cur_token.value.toString(), null);
-            }
-        }else{
-            System.out.println("token indefinido");
-        }
-        
-    }
-
-    public void unrecovered_syntax_error(Symbol cur_token) throws Exception {
-        System.out.println("ERRORES IRRECUPERABLES DETECTADOS");
-        if(cur_token==null){
-            System.out.println("token indefinido");
-        }else{
-            if(cur_token.value==null){
-                report_error("ERR_SIN(" + ((cur_token.left)+1) + " / "+((cur_token.right)+1)+"): Mala construccion de la frase cerca de: ", null);
-            }else{
-                report_error( "ERROR_SINTACTICO(" + cur_token.left + " / "+cur_token.right+"): Puede faltar ; .Mala construccion de la frase cerca de: " + cur_token.value.toString(), null);
-            }
-          }
-         report_fatal_error("No es posible recuperarse de los errores encontrados.", null);
-    }
-:};
-
 /* TERMINALES */
 
 terminal 				identifier, numeric_integer_const, numeric_real_const, string_const;
@@ -57,37 +22,20 @@ precedence left plus, minus, multiplication, div, mod, equal;
 
 /* GRAMATICA */
 
-
 PRG::= program identifier semicolon BLQ dot;
+BLQ::= DCLLIST begin end;
+DCLLIST::= DCL;
 
-BLQ::= DCLLIST begin SENTLIST end;
+DCL::= DEFVAR | DEFCTE;
+DEFVAR::= var DEFVARLIST semicolon;
+DEFVARLIST::= VARLIST colon TBAS | DEFVARLIST semicolon VARLIST colon TBAS;
+VARLIST::= identifier | identifier comma VARLIST;
+TBAS::= INTEGER | REAL;
+DEFCTE::= constant CTELIST;
+CTELIST::= identifier equal SIMPVALUE semicolon | CTELIST identifier equal SIMPVALUE semicolon;
+SIMPVALUE::= numeric_integer_const | numeric_real_const | string_const;
 
-DCLLIST::=  | DCLLIST DCL;
 
-SENTLIST::= SENT | SENTLIST SENT;
 
-DCL ::= DEFCTE | DEFVAR | DEFPROC | DEFFUN;
-DEFCTE ::= constant CTELIST;
-CTELIST ::= identifier equal SIMPVALUE semicolon | CTELIST identifier equal SIMPVALUE semicolon;
-SIMPVALUE ::= numeric_integer_const | numeric_real_const | string_const;
 
-DEFVAR ::= var DEFVARLIST semicolon;
-DEFVARLIST ::= VARLIST colon TBAS | DEFVARLIST semicolon VARLIST colon TBAS;
-VARLIST ::= identifier | identifier comma VARLIST;
-DEFPROC ::= procedure identifier FORMAL_PARAMLIST semicolon BLQ semicolon;
-DEFFUN ::= function identifier FORMAL_PARAMLIST colon TBAS semicolon BLQ semicolon;
-FORMAL_PARAMLIST ::=  | openParenthesis FORMAL_PARAM closeParenthesis;
-FORMAL_PARAM ::= VARLIST colon TBAS | VARLIST colon TBAS semicolon FORMAL_PARAM;
-TBAS ::= INTEGER | REAL;
-
-SENT ::= ASIG semicolon | PROC_CALL semicolon;
-ASIG ::= ID assig EXP;
-ID ::= identifier;
-EXP ::= EXP OP EXP | FACTOR;
-OP ::= OPARIT;
-OPARIT ::= plus | minus | multiplication | div | mod;
-FACTOR ::= SIMPVALUE | openParenthesis EXP closeParenthesis | identifier SUBPARAMLIST;
-SUBPARAMLIST ::=  | openParenthesis EXPLIST closeParenthesis;
-EXPLIST ::= EXP | EXP comma EXPLIST;
-PROC_CALL ::= identifier SUBPARAMLIST;
 
