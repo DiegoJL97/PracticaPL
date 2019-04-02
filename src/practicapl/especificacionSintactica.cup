@@ -1,4 +1,4 @@
-package practicapl;
+package practicaspl;
 import java_cup.runtime.*;
 
 /* TERMINALES */
@@ -8,6 +8,9 @@ terminal 				program, semicolon, dot, begin, end, constant, equal, var, colon;
 terminal 				comma, procedure, function, openParenthesis, closeParenthesis;
 terminal 				INTEGER, REAL, assig, plus, minus, multiplication, div, mod;
 
+terminal 				or,and,greater,less,lessEqual,greaterEqual,not;
+terminal				if,then,else,while,do,repeat,until,for,to,downto;
+
 /* NO TERMINALES */
 
 non terminal 			PRG;
@@ -15,10 +18,13 @@ non terminal            BLQ, DCLLIST, SENTLIST, DCL, SENT, DEFCTE, DEFVAR, DEFPR
 non terminal			CTELIST, SIMPVALUE, DEFVARLIST, VARLIST, TBAS, FORMAL_PARAMLIST, FORMAL_PARAM;
 non terminal			ASIG, PROC_CALL, ID, EXP, OP, FACTOR, OPARIT, SUBPARAMLIST, EXPLIST;
 
+non terminal 			EXPCOND,OPLOG,FACTORCOND,OPCOMP,INC;
 
 precedence left identifier;
 precedence left plus, minus, multiplication, div, mod, equal;
-
+precedence left not,or,and,equal,greater,less,lessEqual,greaterEqual;
+precedence left openParenthesis, closeParenthesis;
+precedence left or,and;
 
 /* GRAMATICA */
 
@@ -40,7 +46,8 @@ FORMAL_PARAMLIST::= openParenthesis FORMAL_PARAM closeParenthesis | ;
 FORMAL_PARAM::= VARLIST colon TBAS | VARLIST colon TBAS semicolon FORMAL_PARAM;
 DEFFUN::= function identifier FORMAL_PARAMLIST colon TBAS semicolon BLQ semicolon;
 
-SENT ::= ASIG semicolon | PROC_CALL semicolon;
+SENT ::= ASIG semicolon | PROC_CALL semicolon | if EXPCOND then BLQ else BLQ | while EXPCOND do BLQ | repeat BLQ until EXPCOND semicolon | for identifier assig EXP INC EXP do BLQ;
+INC ::= to | downto;
 ASIG ::= ID assig EXP;
 ID ::= identifier;
 EXP ::= EXP OP EXP | FACTOR;
@@ -51,6 +58,8 @@ SUBPARAMLIST ::= openParenthesis EXPLIST closeParenthesis | ;
 EXPLIST ::= EXP | EXP comma EXPLIST;
 PROC_CALL ::= identifier SUBPARAMLIST;
 
-
-
-
+/*SENTENCIAS DE CONTROL DE FLUJO*/
+EXPCOND ::= EXPCOND OPLOG EXPCOND FACTORCOND;
+OPLOG ::= or | and ;
+FACTORCOND ::= EXP OPCOMP EXP | openParenthesis EXP closeParenthesis | not FACTORCOND;
+OPCOMP ::= less | greater | lessEqual | greaterEqual | equal;
