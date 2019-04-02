@@ -1,5 +1,6 @@
 program test; 
-procedure hola (test:INTEGER ); 
+procedure hola ; 
+const test = 5;
 begin 
 end ;
 begin 
