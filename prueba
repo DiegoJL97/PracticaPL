@@ -1,8 +1,6 @@
 program test; 
-procedure hola ; 
-const test = 5;
+const test = 20;
 begin 
-end ;
-begin 
+hola := 5;
 end .
 

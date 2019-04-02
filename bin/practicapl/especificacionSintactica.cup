@@ -23,8 +23,9 @@ precedence left plus, minus, multiplication, div, mod, equal;
 /* GRAMATICA */
 
 PRG::= program identifier semicolon BLQ dot;
-BLQ::= DCLLIST begin end;
+BLQ::= DCLLIST begin SENTLIST end;
 DCLLIST::= DCL | ;
+SENTLIST::= SENT | SENTLIST SENT;
 
 DCL::= DEFVAR | DEFCTE | DEFPROC | DEFFUN;
 DEFVAR::= var DEFVARLIST semicolon;
@@ -38,6 +39,17 @@ DEFPROC::= procedure identifier FORMAL_PARAMLIST semicolon BLQ semicolon;
 FORMAL_PARAMLIST::= openParenthesis FORMAL_PARAM closeParenthesis | ;
 FORMAL_PARAM::= VARLIST colon TBAS | VARLIST colon TBAS semicolon FORMAL_PARAM;
 DEFFUN::= function identifier FORMAL_PARAMLIST colon TBAS semicolon BLQ semicolon;
+
+SENT ::= ASIG semicolon | PROC_CALL semicolon;
+ASIG ::= ID assig EXP;
+ID ::= identifier;
+EXP ::= EXP OP EXP | FACTOR;
+OP ::= OPARIT;
+OPARIT ::= plus | minus | multiplication | div | mod;
+FACTOR ::= SIMPVALUE | openParenthesis EXP closeParenthesis | identifier SUBPARAMLIST;
+SUBPARAMLIST ::= openParenthesis EXPLIST closeParenthesis | ;
+EXPLIST ::= EXP | EXP comma EXPLIST;
+PROC_CALL ::= identifier SUBPARAMLIST;
 
 
 
