@@ -30,15 +30,15 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\032\000\002\002\007\000\002\002\004\000\002\003" +
-    "\005\000\002\004\003\000\002\006\003\000\002\006\003" +
-    "\000\002\006\003\000\002\006\003\000\002\011\005\000" +
-    "\002\016\005\000\002\016\007\000\002\017\003\000\002" +
-    "\017\005\000\002\020\003\000\002\020\003\000\002\010" +
-    "\004\000\002\014\006\000\002\014\007\000\002\015\003" +
-    "\000\002\015\003\000\002\015\003\000\002\012\010\000" +
-    "\002\021\005\000\002\022\005\000\002\022\007\000\002" +
-    "\013\012" });
+    "\000\033\000\002\002\007\000\002\002\004\000\002\003" +
+    "\005\000\002\004\003\000\002\004\002\000\002\006\003" +
+    "\000\002\006\003\000\002\006\003\000\002\006\003\000" +
+    "\002\011\005\000\002\016\005\000\002\016\007\000\002" +
+    "\017\003\000\002\017\005\000\002\020\003\000\002\020" +
+    "\003\000\002\010\004\000\002\014\006\000\002\014\007" +
+    "\000\002\015\003\000\002\015\003\000\002\015\003\000" +
+    "\002\012\010\000\002\021\005\000\002\022\005\000\002" +
+    "\022\007\000\002\013\012" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -48,39 +48,39 @@ public class parser extends java_cup.runtime.lr_parser {
     unpackFromStrings(new String[] {
     "\000\101\000\004\010\004\001\002\000\004\004\007\001" +
     "\002\000\004\002\006\001\002\000\004\002\000\001\002" +
-    "\000\004\011\010\001\002\000\012\015\017\017\023\022" +
-    "\011\023\015\001\002\000\004\004\077\001\002\000\004" +
-    "\013\ufffe\001\002\000\004\012\076\001\002\000\004\013" +
-    "\074\001\002\000\004\004\055\001\002\000\004\013\ufffb" +
-    "\001\002\000\004\004\041\001\002\000\004\013\ufffa\001" +
-    "\002\000\004\013\ufffc\001\002\000\004\013\ufffd\001\002" +
-    "\000\004\004\025\001\002\000\004\020\037\001\002\000" +
-    "\006\020\ufff6\021\035\001\002\000\004\011\027\001\002" +
-    "\000\006\004\025\013\ufff9\001\002\000\004\020\031\001" +
-    "\002\000\006\026\032\027\034\001\002\000\006\011\ufff4" +
-    "\025\ufff4\001\002\000\004\011\ufff7\001\002\000\006\011" +
-    "\ufff3\025\ufff3\001\002\000\004\004\025\001\002\000\004" +
-    "\020\ufff5\001\002\000\006\026\032\027\034\001\002\000" +
-    "\004\011\ufff8\001\002\000\004\016\052\001\002\000\006" +
-    "\004\043\013\ufff2\001\002\000\004\016\044\001\002\000" +
-    "\010\005\047\006\050\007\045\001\002\000\004\011\uffed" +
-    "\001\002\000\004\011\051\001\002\000\004\011\uffef\001" +
-    "\002\000\004\011\uffee\001\002\000\006\004\ufff0\013\ufff0" +
-    "\001\002\000\010\005\047\006\050\007\045\001\002\000" +
-    "\004\011\054\001\002\000\006\004\ufff1\013\ufff1\001\002" +
-    "\000\004\024\056\001\002\000\004\004\025\001\002\000" +
-    "\004\020\060\001\002\000\006\026\032\027\034\001\002" +
-    "\000\004\011\062\001\002\000\012\015\017\017\023\022" +
-    "\011\023\015\001\002\000\004\011\064\001\002\000\004" +
-    "\013\uffe8\001\002\000\004\025\073\001\002\000\004\020" +
-    "\067\001\002\000\006\026\032\027\034\001\002\000\006" +
-    "\011\071\025\uffea\001\002\000\004\004\025\001\002\000" +
-    "\004\025\uffe9\001\002\000\006\011\uffeb\020\uffeb\001\002" +
-    "\000\004\014\075\001\002\000\006\011\uffff\012\uffff\001" +
-    "\002\000\004\002\001\001\002\000\004\024\056\001\002" +
-    "\000\004\011\101\001\002\000\012\015\017\017\023\022" +
-    "\011\023\015\001\002\000\004\011\103\001\002\000\004" +
-    "\013\uffec\001\002" });
+    "\000\004\011\010\001\002\000\014\013\ufffd\015\017\017" +
+    "\023\022\011\023\014\001\002\000\004\004\077\001\002" +
+    "\000\004\013\ufffe\001\002\000\004\012\076\001\002\000" +
+    "\004\004\057\001\002\000\004\013\055\001\002\000\004" +
+    "\013\ufffa\001\002\000\004\004\041\001\002\000\004\013" +
+    "\ufff9\001\002\000\004\013\ufffb\001\002\000\004\013\ufffc" +
+    "\001\002\000\004\004\025\001\002\000\004\020\037\001" +
+    "\002\000\006\020\ufff5\021\035\001\002\000\004\011\027" +
+    "\001\002\000\006\004\025\013\ufff8\001\002\000\004\020" +
+    "\031\001\002\000\006\026\032\027\034\001\002\000\006" +
+    "\011\ufff3\025\ufff3\001\002\000\004\011\ufff6\001\002\000" +
+    "\006\011\ufff2\025\ufff2\001\002\000\004\004\025\001\002" +
+    "\000\004\020\ufff4\001\002\000\006\026\032\027\034\001" +
+    "\002\000\004\011\ufff7\001\002\000\004\016\052\001\002" +
+    "\000\006\004\043\013\ufff1\001\002\000\004\016\044\001" +
+    "\002\000\010\005\047\006\050\007\045\001\002\000\004" +
+    "\011\uffec\001\002\000\004\011\051\001\002\000\004\011" +
+    "\uffee\001\002\000\004\011\uffed\001\002\000\006\004\uffef" +
+    "\013\uffef\001\002\000\010\005\047\006\050\007\045\001" +
+    "\002\000\004\011\054\001\002\000\006\004\ufff0\013\ufff0" +
+    "\001\002\000\004\014\056\001\002\000\006\011\uffff\012" +
+    "\uffff\001\002\000\004\024\060\001\002\000\004\004\025" +
+    "\001\002\000\004\020\062\001\002\000\006\026\032\027" +
+    "\034\001\002\000\004\011\064\001\002\000\014\013\ufffd" +
+    "\015\017\017\023\022\011\023\014\001\002\000\004\011" +
+    "\066\001\002\000\004\013\uffe7\001\002\000\004\025\075" +
+    "\001\002\000\004\020\071\001\002\000\006\026\032\027" +
+    "\034\001\002\000\006\011\073\025\uffe9\001\002\000\004" +
+    "\004\025\001\002\000\004\025\uffe8\001\002\000\006\011" +
+    "\uffea\020\uffea\001\002\000\004\002\001\001\002\000\004" +
+    "\024\060\001\002\000\004\011\101\001\002\000\014\013" +
+    "\ufffd\015\017\017\023\022\011\023\014\001\002\000\004" +
+    "\011\103\001\002\000\004\013\uffeb\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -90,7 +90,7 @@ public class parser extends java_cup.runtime.lr_parser {
     unpackFromStrings(new String[] {
     "\000\101\000\004\002\004\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\020" +
-    "\003\012\004\013\006\011\010\020\011\021\012\015\013" +
+    "\003\012\004\014\006\011\010\020\011\021\012\015\013" +
     "\017\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\004\014\041\001\001\000\002\001\001\000\002" +
@@ -103,16 +103,16 @@ public class parser extends java_cup.runtime.lr_parser {
     "\000\002\001\001\000\002\001\001\000\004\015\045\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\004\015\052\001" +
-    "\001\000\002\001\001\000\002\001\001\000\004\021\056" +
-    "\001\001\000\006\017\065\022\064\001\001\000\002\001" +
-    "\001\000\004\020\060\001\001\000\002\001\001\000\020" +
-    "\003\062\004\013\006\011\010\020\011\021\012\015\013" +
-    "\017\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\004\020\067\001\001\000" +
-    "\002\001\001\000\006\017\065\022\071\001\001\000\002" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\004\021\060\001\001\000\006\017" +
+    "\067\022\066\001\001\000\002\001\001\000\004\020\062" +
+    "\001\001\000\002\001\001\000\020\003\064\004\014\006" +
+    "\011\010\020\011\021\012\015\013\017\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\004\020\071\001\001\000\002\001\001\000\006" +
+    "\017\067\022\073\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\004\021\077\001\001\000\002" +
-    "\001\001\000\020\003\101\004\013\006\011\010\020\011" +
+    "\001\001\000\020\003\101\004\014\006\011\010\020\011" +
     "\021\012\015\013\017\001\001\000\002\001\001\000\002" +
     "\001\001" });
 
@@ -218,7 +218,16 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // DCL ::= DEFVAR 
+          case 4: // DCLLIST ::= 
+            {
+              Object RESULT =null;
+
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("DCLLIST",2, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 5: // DCL ::= DEFVAR 
             {
               Object RESULT =null;
 
@@ -227,7 +236,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // DCL ::= DEFCTE 
+          case 6: // DCL ::= DEFCTE 
             {
               Object RESULT =null;
 
@@ -236,7 +245,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // DCL ::= DEFPROC 
+          case 7: // DCL ::= DEFPROC 
             {
               Object RESULT =null;
 
@@ -245,7 +254,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // DCL ::= DEFFUN 
+          case 8: // DCL ::= DEFFUN 
             {
               Object RESULT =null;
 
@@ -254,7 +263,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // DEFVAR ::= var DEFVARLIST semicolon 
+          case 9: // DEFVAR ::= var DEFVARLIST semicolon 
             {
               Object RESULT =null;
 
@@ -263,7 +272,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // DEFVARLIST ::= VARLIST colon TBAS 
+          case 10: // DEFVARLIST ::= VARLIST colon TBAS 
             {
               Object RESULT =null;
 
@@ -272,7 +281,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // DEFVARLIST ::= DEFVARLIST semicolon VARLIST colon TBAS 
+          case 11: // DEFVARLIST ::= DEFVARLIST semicolon VARLIST colon TBAS 
             {
               Object RESULT =null;
 
@@ -281,7 +290,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // VARLIST ::= identifier 
+          case 12: // VARLIST ::= identifier 
             {
               Object RESULT =null;
 
@@ -290,7 +299,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // VARLIST ::= identifier comma VARLIST 
+          case 13: // VARLIST ::= identifier comma VARLIST 
             {
               Object RESULT =null;
 
@@ -299,7 +308,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // TBAS ::= INTEGER 
+          case 14: // TBAS ::= INTEGER 
             {
               Object RESULT =null;
 
@@ -308,7 +317,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // TBAS ::= REAL 
+          case 15: // TBAS ::= REAL 
             {
               Object RESULT =null;
 
@@ -317,7 +326,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // DEFCTE ::= constant CTELIST 
+          case 16: // DEFCTE ::= constant CTELIST 
             {
               Object RESULT =null;
 
@@ -326,7 +335,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // CTELIST ::= identifier equal SIMPVALUE semicolon 
+          case 17: // CTELIST ::= identifier equal SIMPVALUE semicolon 
             {
               Object RESULT =null;
 
@@ -335,7 +344,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // CTELIST ::= CTELIST identifier equal SIMPVALUE semicolon 
+          case 18: // CTELIST ::= CTELIST identifier equal SIMPVALUE semicolon 
             {
               Object RESULT =null;
 
@@ -344,7 +353,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // SIMPVALUE ::= numeric_integer_const 
+          case 19: // SIMPVALUE ::= numeric_integer_const 
             {
               Object RESULT =null;
 
@@ -353,7 +362,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 19: // SIMPVALUE ::= numeric_real_const 
+          case 20: // SIMPVALUE ::= numeric_real_const 
             {
               Object RESULT =null;
 
@@ -362,7 +371,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 20: // SIMPVALUE ::= string_const 
+          case 21: // SIMPVALUE ::= string_const 
             {
               Object RESULT =null;
 
@@ -371,7 +380,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 21: // DEFPROC ::= procedure identifier FORMAL_PARAMLIST semicolon BLQ semicolon 
+          case 22: // DEFPROC ::= procedure identifier FORMAL_PARAMLIST semicolon BLQ semicolon 
             {
               Object RESULT =null;
 
@@ -380,7 +389,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 22: // FORMAL_PARAMLIST ::= openParenthesis FORMAL_PARAM closeParenthesis 
+          case 23: // FORMAL_PARAMLIST ::= openParenthesis FORMAL_PARAM closeParenthesis 
             {
               Object RESULT =null;
 
@@ -389,7 +398,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 23: // FORMAL_PARAM ::= VARLIST colon TBAS 
+          case 24: // FORMAL_PARAM ::= VARLIST colon TBAS 
             {
               Object RESULT =null;
 
@@ -398,7 +407,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 24: // FORMAL_PARAM ::= VARLIST colon TBAS semicolon FORMAL_PARAM 
+          case 25: // FORMAL_PARAM ::= VARLIST colon TBAS semicolon FORMAL_PARAM 
             {
               Object RESULT =null;
 
@@ -407,7 +416,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 25: // DEFFUN ::= function identifier FORMAL_PARAMLIST colon TBAS semicolon BLQ semicolon 
+          case 26: // DEFFUN ::= function identifier FORMAL_PARAMLIST colon TBAS semicolon BLQ semicolon 
             {
               Object RESULT =null;
 

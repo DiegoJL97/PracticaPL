@@ -3,7 +3,7 @@ import java_cup.runtime.*;
 
 /* TERMINALES */
 
-terminal 				identifier, numeric_integer_const, numeric_real_const, string_const;
+terminal 			 	identifier, numeric_integer_const, numeric_real_const, string_const;
 terminal 				program, semicolon, dot, begin, end, constant, equal, var, colon;
 terminal 				comma, procedure, function, openParenthesis, closeParenthesis;
 terminal 				INTEGER, REAL, assig, plus, minus, multiplication, div, mod;
@@ -24,7 +24,7 @@ precedence left plus, minus, multiplication, div, mod, equal;
 
 PRG::= program identifier semicolon BLQ dot;
 BLQ::= DCLLIST begin end;
-DCLLIST::= DCL;
+DCLLIST::= DCL | ;
 
 DCL::= DEFVAR | DEFCTE | DEFPROC | DEFFUN;
 DEFVAR::= var DEFVARLIST semicolon;

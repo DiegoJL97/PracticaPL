@@ -1,10 +1,7 @@
 program test; 
-
-function hola (test:REAL ) : REAL ; 
-const prueba = 5; 
+procedure hola (test:INTEGER ); 
 begin 
 end ;
-
 begin 
 end .
 
