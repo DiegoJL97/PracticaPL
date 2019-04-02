@@ -5,6 +5,7 @@ import java_cup.runtime.*;
 %%
 
 %class AnalizadorLexico
+%standalone
 %unicode
 %line
 %column
