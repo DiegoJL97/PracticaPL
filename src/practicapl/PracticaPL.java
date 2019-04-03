@@ -17,28 +17,33 @@ public class PracticaPL {
     
     public static void main(String argv[]) throws java.io.IOException{
     	
-
-                AnalizadorLexico lexico = null;
-                try {
-                	Scanner scan = new Scanner(System.in);
-                	System.out.println("Introduzca el nombre del archivo que quiere probar: ");
-                	String file = scan.nextLine();
-                    lexico = new AnalizadorLexico(new java.io.FileReader(file));   
-                    parser sintactico = new parser(lexico);
-                    sintactico.parse();
-                    System.out.println("Fichero sintácticamente correcto");
-                }
-                catch (java.io.FileNotFoundException e) {
-                    System.out.println("Archivo no encontrado.");
-                }
-                catch (java.io.IOException e) {
-                    System.out.println("Error durante la lectura del archivo.");
-                    e.printStackTrace();
-                }
-                catch (Exception e) {
-                    System.out.println("Excepcion:");
-                    e.printStackTrace();
-                }
-
+    	Scanner scan = new Scanner(System.in);
+    	System.out.println("Introduce el numero de casos de prueba: ");
+    	int casosPrueba = Integer.parseInt(scan.nextLine());
+	    AnalizadorLexico lexico = null;
+	    
+	    while(casosPrueba > 0){
+	    	
+	    	try {
+		    	System.out.println("Introduzca el nombre del archivo que quiere probar: ");
+		    	String file = scan.nextLine();
+		        lexico = new AnalizadorLexico(new java.io.FileReader(file));   
+		        parser sintactico = new parser(lexico);
+		        sintactico.parse();
+		        System.out.println("Fichero sintácticamente correcto");
+		    }
+		    catch (java.io.FileNotFoundException e) {
+		        System.out.println("Archivo no encontrado.");
+		    }
+		    catch (java.io.IOException e) {
+		        System.out.println("Error durante la lectura del archivo.");
+		        e.printStackTrace();
+		    }
+		    catch (Exception e) {
+		        e.printStackTrace();
+		    }
+	    	casosPrueba -= 1;
+	    	
+	    }
     }
 } 

@@ -7,7 +7,7 @@ procedure sumar;
 const num = 123E456;
 begin 
 j := j + num; 
-end ;
+end;
 
 begin 
 
@@ -16,4 +16,4 @@ j := sumar(5);
 j := j - -000.64E-77;
 writeln(mensaje);
 
-end .
+end.
