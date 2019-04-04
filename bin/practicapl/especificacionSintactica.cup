@@ -4,7 +4,7 @@ import java_cup.runtime.*;
 /* TERMINALES */
 
 terminal 			 	identifier, numeric_integer_const, numeric_real_const, string_const;
-terminal 				program, semicolon, dot, begin, end, constant, equal, var, colon;
+terminal 				unit, program, semicolon, dot, begin, end, constant, equal, var, colon;
 terminal 				comma, procedure, function, openParenthesis, closeParenthesis;
 terminal 				INTEGER, REAL, assig, plus, minus, multiplication, div, mod;
 
@@ -28,7 +28,7 @@ precedence left or,and;
 
 /* GRAMATICA */
 
-PRG::= program identifier semicolon BLQ dot;
+PRG::= program identifier semicolon BLQ dot | unit identifier semicolon DCLLIST dot;
 BLQ::= DCLLIST begin SENTLIST end;
 DCLLIST::= DCLLIST DCL | ;
 SENTLIST::= SENT | SENTLIST SENT;
@@ -59,6 +59,7 @@ EXPLIST ::= EXP | EXP comma EXPLIST;
 PROC_CALL ::= identifier SUBPARAMLIST;
 
 /*SENTENCIAS DE CONTROL DE FLUJO*/
+
 EXPCOND ::= EXPCOND OPLOG EXPCOND | FACTORCOND;
 OPLOG ::= or | and ;
 FACTORCOND ::= EXP OPCOMP EXP | openParenthesis EXP closeParenthesis | not FACTORCOND;

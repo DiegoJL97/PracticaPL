@@ -1,4 +1,4 @@
-program test;
+program prueba4;
 
 var contador,j:INTEGER ;
 const mensaje = 'Operacion realizada';

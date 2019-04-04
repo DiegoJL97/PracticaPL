@@ -1,20 +1,29 @@
-program test;
+unit miLibreria;
 
-var j:INTEGER ; 
-const mensaje = 'Operacion realizada';
+	var numero: INTEGER ;
 
-procedure sumar; 
-const num = 123E456;
-begin 
-	j := j + num;
-end ;
+	function sumar (i:INTEGER ): INTEGER ;
+	begin
+		numero := numero + i;
+	end;
 
-begin 
+	function restar (j:INTEGER ): INTEGER ;
+	begin
+		numero := numero - i;
+	{Error: Falta un punto y coma en el end de esta función}
+	end
 
-	{Error: Falta un punto y coma}
-	j := 1.23E456
-	j := sumar(5);
-	j := j - -000.64E-77;
-	writeln(mensaje);
+	function multPorSumas (i,k:INTEGER ): INTEGER ;
+	var j: INTEGER ;
+	begin
+		for j := 0 to i do begin
+			numero := numero + k;
+		end
+	end;
 
-end .
+	function dividir (i:INTEGER ): INTEGER ;
+	begin
+		numero := numero div i;
+	end;
+
+.

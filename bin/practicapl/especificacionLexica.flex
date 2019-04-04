@@ -45,31 +45,33 @@ MultiLinea = [(][*] ({CualquierCaracter} | {TerminacionLinea})* [*][)]
 
 <YYINITIAL> {
 	
-	/* RESTO */
+	/* PALABRAS RESERVADAS */
 	"program "							{ return new Symbol(sym.program,yyline,yycolumn,yytext()); }
-	";"									{ return new Symbol(sym.semicolon,yyline,yycolumn,yytext()); }
-	"."									{ return new Symbol(sym.dot,yyline,yycolumn,yytext()); }
+	"unit "								{ return new Symbol(sym.unit,yyline,yycolumn,yytext()); }
 	[b][e][g][i][n]						{ return new Symbol(sym.begin,yyline,yycolumn,yytext()); }
 	[e][n][d]							{ return new Symbol(sym.end,yyline,yycolumn,yytext()); }
 	"const "							{ return new Symbol(sym.constant,yyline,yycolumn,yytext()); }
-	"="									{ return new Symbol(sym.equal,yyline,yycolumn,yytext()); }
 	"var "								{ return new Symbol(sym.var,yyline,yycolumn,yytext()); }
-	":"									{ return new Symbol(sym.colon,yyline,yycolumn,yytext()); }
-	","									{ return new Symbol(sym.comma,yyline,yycolumn,yytext()); }
 	"procedure "						{ return new Symbol(sym.procedure,yyline,yycolumn,yytext()); }
 	"function "							{ return new Symbol(sym.function,yyline,yycolumn,yytext()); }
-	"("									{ return new Symbol(sym.openParenthesis,yyline,yycolumn,yytext()); }
-	")"									{ return new Symbol(sym.closeParenthesis,yyline,yycolumn,yytext()); }
 	"INTEGER "							{ return new Symbol(sym.INTEGER,yyline,yycolumn,yytext()); }
 	"REAL "								{ return new Symbol(sym.REAL,yyline,yycolumn,yytext()); }
+	"div "								{ return new Symbol(sym.div,yyline,yycolumn,yytext()); }
+	"mod "								{ return new Symbol(sym.mod,yyline,yycolumn,yytext()); }
+	
+	/* RESTO */
+	";"									{ return new Symbol(sym.semicolon,yyline,yycolumn,yytext()); }
+	"."									{ return new Symbol(sym.dot,yyline,yycolumn,yytext()); }
+	"="									{ return new Symbol(sym.equal,yyline,yycolumn,yytext()); }
+	":"									{ return new Symbol(sym.colon,yyline,yycolumn,yytext()); }
+	","									{ return new Symbol(sym.comma,yyline,yycolumn,yytext()); }
+	"("									{ return new Symbol(sym.openParenthesis,yyline,yycolumn,yytext()); }
+	")"									{ return new Symbol(sym.closeParenthesis,yyline,yycolumn,yytext()); }
 	":="								{ return new Symbol(sym.assig,yyline,yycolumn,yytext()); }
 	"+"									{ return new Symbol(sym.plus,yyline,yycolumn,yytext()); }
 	"-"									{ return new Symbol(sym.minus,yyline,yycolumn,yytext()); }
 	"*"									{ return new Symbol(sym.multiplication,yyline,yycolumn,yytext()); }
-	"div "								{ return new Symbol(sym.div,yyline,yycolumn,yytext()); }
-	"mod "								{ return new Symbol(sym.mod,yyline,yycolumn,yytext()); }
-	
-	
+		
 	/* SENTENCIAS DE CONTROL DE FLUJO*/
 	"or " 								{ return new Symbol(sym.or,yyline,yycolumn,yytext()); }
 	"and " 								{ return new Symbol(sym.and,yyline,yycolumn,yytext()); }
@@ -100,15 +102,14 @@ MultiLinea = [(][*] ({CualquierCaracter} | {TerminacionLinea})* [*][)]
 
     /* CONSTANTE LITERAL */
     {ConstanteLiteral}					{ return new Symbol(sym.string_const,yyline,yycolumn); }
+    
     /* COMENTARIOS */
     {UnaLinea}							{ /* ignorar */ }
 	{MultiLinea}						{ /* ignorar */ }
 	
 	/* ESPACIO BLANCO */
-
 	{EspacionBlaco}						{ /* ignorar */ }
 	
-
 }
 	
 /* error fallback */
