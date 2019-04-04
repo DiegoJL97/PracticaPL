@@ -10,6 +10,12 @@ import java_cup.runtime.*;
 %column
 %cup
 
+%{
+private String quitarComillas (String s) {
+	return s.replaceAll("''", "'");
+}
+%}
+
 /* GENERALES */
 TerminacionLinea = \r|\n|\r\n
 CualquierCaracter = [^\r\n]
@@ -34,7 +40,9 @@ Mixto = [+-]? {PuntoFijo} [Ee] [+-]? [0-9]+
 
 /* CONSTANTES LITERALES*/
 
-ConstanteLiteral = ['] {CualquierCaracter}* [']
+InicioFinString = "'"
+validez = "''"
+ConstanteLiteral = {InicioFinString} ({validez} | [^'\n])* {InicioFinString}
 
 /* COMENTARIOS */
 
@@ -101,7 +109,7 @@ MultiLinea = [(][*] ({CualquierCaracter} | {TerminacionLinea})* [*][)]
 	{Mixto}								{ return new Symbol(sym.numeric_real_const,yyline,yycolumn); }
 
     /* CONSTANTE LITERAL */
-    {ConstanteLiteral}					{ return new Symbol(sym.string_const,yyline,yycolumn); }
+    {ConstanteLiteral}					{ return new Symbol(sym.string_const,yyline,yycolumn,quitarComillas(yytext())); }
     
     /* COMENTARIOS */
     {UnaLinea}							{ /* ignorar */ }
