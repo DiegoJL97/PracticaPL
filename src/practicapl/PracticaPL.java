@@ -5,6 +5,7 @@
  */
 package practicapl;
 import java_cup.runtime.*;
+
 import java.io.*;
 import java.util.Scanner;
 
@@ -13,9 +14,10 @@ public class PracticaPL {
     public static String nombre="";
     /**
      * @param argv the command line arguments
+     * @throws InterruptedException 
      */
     
-    public static void main(String argv[]) throws java.io.IOException{
+    public static void main(String argv[]) throws java.io.IOException, InterruptedException{
     	
     	Scanner scan = new Scanner(System.in);
     	System.out.println("Introduce el numero de casos de prueba: ");
@@ -43,6 +45,7 @@ public class PracticaPL {
 		        e.printStackTrace();
 		    }
 	    	casosPrueba -= 1;
+	    	Thread.sleep(200);
 	    	
 	    }
     }
