@@ -3,7 +3,8 @@ import java_cup.runtime.*;
 
 /* TERMINALES */
 
-terminal 			 	identifier, numeric_integer_const, numeric_real_const, string_const;
+terminal String numeric_real_const, numeric_integer_const, string_const;
+terminal String		 	identifier;
 terminal 				unit, program, semicolon, dot, begin, end, constant, equal, var, colon;
 terminal 				comma, procedure, function, openParenthesis, closeParenthesis;
 terminal 				INTEGER, REAL, assig, plus, minus, multiplication, div, mod;
@@ -13,9 +14,10 @@ terminal				ifConditional,then,elseConditional,whileLoop,doFor,repeat,until,forL
 
 /* NO TERMINALES */
 
+non terminal String 	CTELIST;
 non terminal 			PRG;
 non terminal            BLQ, DCLLIST, SENTLIST, DCL, SENT, DEFCTE, DEFVAR, DEFPROC, DEFFUN;
-non terminal			CTELIST, SIMPVALUE, DEFVARLIST, VARLIST, TBAS, FORMAL_PARAMLIST, FORMAL_PARAM;
+non terminal			SIMPVALUE, DEFVARLIST, VARLIST, TBAS, FORMAL_PARAMLIST, FORMAL_PARAM;
 non terminal			ASIG, PROC_CALL, ID, EXP, OP, FACTOR, OPARIT, SUBPARAMLIST, EXPLIST;
 
 non terminal 			EXPCOND, OPLOG, FACTORCOND, OPCOMP, INC;
@@ -33,14 +35,16 @@ BLQ::= DCLLIST begin SENTLIST end;
 DCLLIST::= DCLLIST DCL | ;
 SENTLIST::= SENT | SENTLIST SENT;
 
-DCL::= DEFVAR | DEFCTE | DEFPROC | DEFFUN;
+DCL::= DEFVAR | DEFCTE:valor {: System.out.println(valor); :}| DEFPROC | DEFFUN;
 DEFVAR::= var DEFVARLIST semicolon;
 DEFVARLIST::= VARLIST colon TBAS | DEFVARLIST semicolon VARLIST colon TBAS;
 VARLIST::= identifier | identifier comma VARLIST;
 TBAS::= INTEGER | REAL;
-DEFCTE::= constant CTELIST;
-CTELIST::= identifier equal SIMPVALUE semicolon | CTELIST identifier equal SIMPVALUE semicolon;
-SIMPVALUE::= numeric_integer_const | numeric_real_const | string_const;
+DEFCTE::= constant CTELIST:valor {: RESULT = new String("#define "+valor); :};
+CTELIST::= identifier:id equal SIMPVALUE:valor semicolon {: RESULT = new String(id+" "+valor); :} | CTELIST:valorc identifier:id equal SIMPVALUE:valor semicolon {: RESULT = new String(valorc+" "+id+" "+valor); :};
+SIMPVALUE::= numeric_integer_const:i {: RESULT = Integer.parseInt(i); :}
+				| numeric_real_const:r {: RESULT = Float.parseFloat(r); :}
+				| string_const:st {: RESULT = new String(st); :};
 DEFPROC::= procedure identifier FORMAL_PARAMLIST semicolon BLQ semicolon;
 FORMAL_PARAMLIST::= openParenthesis FORMAL_PARAM closeParenthesis | ;
 FORMAL_PARAM::= VARLIST colon TBAS | VARLIST colon TBAS semicolon FORMAL_PARAM;

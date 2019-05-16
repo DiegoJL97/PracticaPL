@@ -100,13 +100,13 @@ MultiLinea = [(][*] ({CualquierCaracter} | {TerminacionLinea})* [*][)]
 	"downto "							{ return new Symbol(sym.downto,yyline,yycolumn,yytext()); }
 	
 	/* IDENTIFICADORES */ 
-    {Identificador}                    	{ return new Symbol(sym.identifier,yyline,yycolumn); }
+    {Identificador}                    	{ return new Symbol(sym.identifier,yyline,yycolumn,yytext()); }
 
     /* CONSTANTES */
-    {ConstNumericaEntera}				{ return new Symbol(sym.numeric_integer_const,yyline,yycolumn); }
-	{PuntoFijo}							{ return new Symbol(sym.numeric_real_const,yyline,yycolumn); }
-	{Exponencial}						{ return new Symbol(sym.numeric_real_const,yyline,yycolumn); }
-	{Mixto}								{ return new Symbol(sym.numeric_real_const,yyline,yycolumn); }
+    {ConstNumericaEntera}				{ return new Symbol(sym.numeric_integer_const,yyline,yycolumn,yytext()); }
+	{PuntoFijo}							{ return new Symbol(sym.numeric_real_const,yyline,yycolumn,yytext()); }
+	{Exponencial}						{ return new Symbol(sym.numeric_real_const,yyline,yycolumn,yytext()); }
+	{Mixto}								{ return new Symbol(sym.numeric_real_const,yyline,yycolumn,yytext()); }
 
     /* CONSTANTE LITERAL */
     {ConstanteLiteral}					{ return new Symbol(sym.string_const,yyline,yycolumn,quitarComillas(yytext())); }
