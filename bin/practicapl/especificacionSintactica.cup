@@ -14,10 +14,10 @@ terminal				ifConditional,then,elseConditional,whileLoop,doFor,repeat,until,forL
 
 /* NO TERMINALES */
 
-non terminal String 	CTELIST;
+non terminal String 	CTELIST, FORMAL_PARAM, FORMAL_PARAMLIST;
 non terminal 			PRG;
 non terminal            BLQ, DCLLIST, SENTLIST, DCL, SENT, DEFCTE, DEFVAR, DEFPROC, DEFFUN;
-non terminal			SIMPVALUE, DEFVARLIST, VARLIST, TBAS, FORMAL_PARAMLIST, FORMAL_PARAM;
+non terminal			SIMPVALUE, DEFVARLIST, VARLIST, TBAS;
 non terminal			ASIG, PROC_CALL, ID, EXP, OP, FACTOR, OPARIT, SUBPARAMLIST, EXPLIST;
 
 non terminal 			EXPCOND, OPLOG, FACTORCOND, OPCOMP, INC;
@@ -38,17 +38,17 @@ SENTLIST::= SENT | SENTLIST SENT;
 DCL::= DEFVAR | DEFCTE:valor {: System.out.println(valor); :}| DEFPROC | DEFFUN;
 DEFVAR::= var DEFVARLIST semicolon;
 DEFVARLIST::= VARLIST colon TBAS | DEFVARLIST semicolon VARLIST colon TBAS;
-VARLIST::= identifier | identifier comma VARLIST;
-TBAS::= INTEGER | REAL;
+VARLIST::= identifier:id {: RESULT = new String(id); :}| identifier comma VARLIST;
+TBAS::= INTEGER {: RESULT = new String("int"); :}| REAL {: RESULT = new String("float"); :};
 DEFCTE::= constant CTELIST:valor {: RESULT = new String("#define "+valor); :};
 CTELIST::= identifier:id equal SIMPVALUE:valor semicolon {: RESULT = new String(id+" "+valor); :} | CTELIST:valorc identifier:id equal SIMPVALUE:valor semicolon {: RESULT = new String(valorc+" "+id+" "+valor); :};
 SIMPVALUE::= numeric_integer_const:i {: RESULT = Integer.parseInt(i); :}
 				| numeric_real_const:r {: RESULT = Float.parseFloat(r); :}
 				| string_const:st {: RESULT = new String(st); :};
 DEFPROC::= procedure identifier FORMAL_PARAMLIST semicolon BLQ semicolon;
-FORMAL_PARAMLIST::= openParenthesis FORMAL_PARAM closeParenthesis | ;
-FORMAL_PARAM::= VARLIST colon TBAS | VARLIST colon TBAS semicolon FORMAL_PARAM;
-DEFFUN::= function identifier FORMAL_PARAMLIST colon TBAS semicolon BLQ semicolon;
+FORMAL_PARAMLIST::= openParenthesis FORMAL_PARAM:valor closeParenthesis {: RESULT = new String("("+valor+")"); :}| ;
+FORMAL_PARAM::= VARLIST:valorv colon TBAS:valort {: RESULT = new String(valort+" "+valorv); :}| VARLIST colon TBAS semicolon FORMAL_PARAM;
+DEFFUN::= function identifier FORMAL_PARAMLIST:valorf colon TBAS semicolon BLQ semicolon {: System.out.println(valorf); :};
 
 SENT ::= ASIG semicolon | PROC_CALL semicolon | ifConditional EXPCOND then BLQ elseConditional BLQ | whileLoop EXPCOND doFor BLQ | repeat BLQ until EXPCOND semicolon | forLoop identifier assig EXP INC EXP doFor BLQ;
 INC ::= to | downto;
