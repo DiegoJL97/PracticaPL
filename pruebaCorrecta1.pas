@@ -4,7 +4,7 @@ program prueba1;
 	const max = 20;
 	const mensaje = 'Operacion realizada';
 
-	function dividir (i:INTEGER): INTEGER;
+	function dividir : INTEGER;
 		begin
 			i := i div 5;
 		end;

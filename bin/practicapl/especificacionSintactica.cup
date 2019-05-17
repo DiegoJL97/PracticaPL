@@ -1,9 +1,15 @@
 package practicapl;
 import java_cup.runtime.*;
+import java.util.ArrayList;
+
+parser code 
+{:
+	ArrayList<String> constantes = new ArrayList();
+:}
 
 /* TERMINALES */
 
-terminal String numeric_real_const, numeric_integer_const, string_const;
+terminal String 		numeric_real_const, numeric_integer_const, string_const;
 terminal String		 	identifier;
 terminal 				unit, program, semicolon, dot, begin, end, constant, equal, var, colon;
 terminal 				comma, procedure, function, openParenthesis, closeParenthesis;
@@ -14,9 +20,9 @@ terminal				ifConditional,then,elseConditional,whileLoop,doFor,repeat,until,forL
 
 /* NO TERMINALES */
 
-non terminal String 	CTELIST, FORMAL_PARAM, FORMAL_PARAMLIST;
+non terminal String 	DEFCTE, CTELIST, FORMAL_PARAM, FORMAL_PARAMLIST;
 non terminal 			PRG;
-non terminal            BLQ, DCLLIST, SENTLIST, DCL, SENT, DEFCTE, DEFVAR, DEFPROC, DEFFUN;
+non terminal            BLQ, DCLLIST, SENTLIST, DCL, SENT, DEFVAR, DEFPROC, DEFFUN;
 non terminal			SIMPVALUE, DEFVARLIST, VARLIST, TBAS;
 non terminal			ASIG, PROC_CALL, ID, EXP, OP, FACTOR, OPARIT, SUBPARAMLIST, EXPLIST;
 
@@ -30,12 +36,12 @@ precedence left or,and;
 
 /* GRAMATICA */
 
-PRG::= program identifier semicolon BLQ dot | unit identifier semicolon DCLLIST dot;
+PRG::= program identifier semicolon BLQ dot {: for(int i=0; i<constantes.size();i++){ System.out.println(constantes.get(i)); } :} | unit identifier semicolon DCLLIST dot;
 BLQ::= DCLLIST begin SENTLIST end;
 DCLLIST::= DCLLIST DCL | ;
 SENTLIST::= SENT | SENTLIST SENT;
 
-DCL::= DEFVAR | DEFCTE:valor {: System.out.println(valor); :}| DEFPROC | DEFFUN;
+DCL::= DEFVAR | DEFCTE:valor {: constantes.add(valor); :}| DEFPROC:valor {: System.out.println(valor); :}| DEFFUN:valor {: System.out.println(valor); :};
 DEFVAR::= var DEFVARLIST semicolon;
 DEFVARLIST::= VARLIST colon TBAS | DEFVARLIST semicolon VARLIST colon TBAS;
 VARLIST::= identifier:id {: RESULT = new String(id); :}| identifier comma VARLIST;
@@ -45,10 +51,10 @@ CTELIST::= identifier:id equal SIMPVALUE:valor semicolon {: RESULT = new String(
 SIMPVALUE::= numeric_integer_const:i {: RESULT = Integer.parseInt(i); :}
 				| numeric_real_const:r {: RESULT = Float.parseFloat(r); :}
 				| string_const:st {: RESULT = new String(st); :};
-DEFPROC::= procedure identifier FORMAL_PARAMLIST semicolon BLQ semicolon;
-FORMAL_PARAMLIST::= openParenthesis FORMAL_PARAM:valor closeParenthesis {: RESULT = new String("("+valor+")"); :}| ;
-FORMAL_PARAM::= VARLIST:valorv colon TBAS:valort {: RESULT = new String(valort+" "+valorv); :}| VARLIST colon TBAS semicolon FORMAL_PARAM;
-DEFFUN::= function identifier FORMAL_PARAMLIST:valorf colon TBAS semicolon BLQ semicolon {: System.out.println(valorf); :};
+DEFPROC::= procedure identifier:id FORMAL_PARAMLIST:valorf semicolon BLQ semicolon {: RESULT = new String("void "+id+" "+valorf); :};
+FORMAL_PARAMLIST::= openParenthesis FORMAL_PARAM:valor closeParenthesis {: RESULT = new String("("+valor+")"); :} | {: RESULT = new String("(void)"); :} ;
+FORMAL_PARAM::= VARLIST:valorv colon TBAS:valort {: RESULT = new String(valort+" "+valorv); :}| VARLIST:valorv colon TBAS:valort semicolon FORMAL_PARAM:fp {: RESULT = new String(valort+" "+valorv+", "+fp); :};
+DEFFUN::= function identifier:id FORMAL_PARAMLIST:valorf colon TBAS:valorv semicolon BLQ semicolon {: RESULT = new String(valorv+" "+id+" "+valorf); :};
 
 SENT ::= ASIG semicolon | PROC_CALL semicolon | ifConditional EXPCOND then BLQ elseConditional BLQ | whileLoop EXPCOND doFor BLQ | repeat BLQ until EXPCOND semicolon | forLoop identifier assig EXP INC EXP doFor BLQ;
 INC ::= to | downto;

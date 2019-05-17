@@ -12,7 +12,7 @@ unit miLibreria;
 		numero := numero - i;
 	end;
 
-	function multPorSumas (i,k:INTEGER): INTEGER;
+	function multPorSumas (i:INTEGER; k:INTEGER): INTEGER;
 	var j: INTEGER;
 	begin
 		for j := 0 to i do begin
