@@ -37,9 +37,9 @@ precedence left or,and;
 /* GRAMATICA */
 
 PRG::= program identifier semicolon BLQ dot {: for(int i=0; i<constantes.size();i++){ System.out.println(constantes.get(i)); } :} | unit identifier semicolon DCLLIST dot;
-BLQ::= DCLLIST begin SENTLIST end;
+BLQ::= DCLLIST begin SENTLIST:valorSL end {: RESULT = new String("{"+"\n"+valorSL+"\n"+"}"); :};
 DCLLIST::= DCLLIST DCL | ;
-SENTLIST::= SENT | SENTLIST SENT;
+SENTLIST::= SENT:valorSENT {: RESULT = new String(valorSENT); :}| SENTLIST SENT {: RESULT = new String(valorSENT); :};
 
 DCL::= DEFVAR | DEFCTE:valor {: constantes.add(valor); :}| DEFPROC:valor {: System.out.println(valor); :}| DEFFUN:valor {: System.out.println(valor); :};
 DEFVAR::= var DEFVARLIST semicolon;
@@ -51,19 +51,19 @@ CTELIST::= identifier:id equal SIMPVALUE:valor semicolon {: RESULT = new String(
 SIMPVALUE::= numeric_integer_const:i {: RESULT = Integer.parseInt(i); :}
 				| numeric_real_const:r {: RESULT = Float.parseFloat(r); :}
 				| string_const:st {: RESULT = new String(st); :};
-DEFPROC::= procedure identifier:id FORMAL_PARAMLIST:valorf semicolon BLQ semicolon {: RESULT = new String("void "+id+" "+valorf); :};
+DEFPROC::= procedure identifier:id FORMAL_PARAMLIST:valorf semicolon BLQ:valorBLQ semicolon {: RESULT = new String("void "+id+" "+valorf+" "+valorBLQ); :};
 FORMAL_PARAMLIST::= openParenthesis FORMAL_PARAM:valor closeParenthesis {: RESULT = new String("("+valor+")"); :} | {: RESULT = new String("(void)"); :} ;
 FORMAL_PARAM::= VARLIST:valorv colon TBAS:valort {: RESULT = new String(valort+" "+valorv); :}| VARLIST:valorv colon TBAS:valort semicolon FORMAL_PARAM:fp {: RESULT = new String(valort+" "+valorv+", "+fp); :};
-DEFFUN::= function identifier:id FORMAL_PARAMLIST:valorf colon TBAS:valorv semicolon BLQ semicolon {: RESULT = new String(valorv+" "+id+" "+valorf); :};
+DEFFUN::= function identifier:id FORMAL_PARAMLIST:valorf colon TBAS:valorv semicolon BLQ:valorBLQ semicolon {: RESULT = new String(valorv+" "+id+" "+valorf+" "+valorBLQ); :};
 
-SENT ::= ASIG semicolon | PROC_CALL semicolon | ifConditional EXPCOND then BLQ elseConditional BLQ | whileLoop EXPCOND doFor BLQ | repeat BLQ until EXPCOND semicolon | forLoop identifier assig EXP INC EXP doFor BLQ;
+SENT ::= ASIG:valorASIG semicolon {: RESULT = new String(valorASIG+"\n"); :}| PROC_CALL semicolon | ifConditional EXPCOND then BLQ elseConditional BLQ | whileLoop EXPCOND doFor BLQ | repeat BLQ until EXPCOND semicolon | forLoop identifier assig EXP INC EXP doFor BLQ;
 INC ::= to | downto;
-ASIG ::= ID assig EXP;
-ID ::= identifier;
-EXP ::= EXP OP EXP | FACTOR;
-OP ::= OPARIT;
-OPARIT ::= plus | minus | multiplication | div | mod;
-FACTOR ::= SIMPVALUE | openParenthesis EXP closeParenthesis | identifier SUBPARAMLIST;
+ASIG ::= ID:id assig EXP:valorEXP  {: RESULT = new String(id+" = "+valorEXP); :};
+ID ::= identifier:id {: RESULT = new String(id); :};
+EXP ::= EXP:valorEXP1 OP:valorOP EXP:valorEXP2 {: RESULT = new String(valorEXP1+" "+valorOP+" "+valorEXP2); :} | FACTOR:valorFACTOR {: RESULT = new String(valorFACTOR); :};
+OP ::= OPARIT:valorOPARIT {: RESULT = new String(valorOPARIT); :};
+OPARIT ::= plus {: RESULT = new String("+"); :} | minus {: RESULT = new String("-"); :} | multiplication {: RESULT = new String("*"); :} | div {: RESULT = new String("/"); :} | mod {: RESULT = new String("%"); :};
+FACTOR ::= SIMPVALUE:valorSV {: RESULT = new String(valorSV); :} | openParenthesis EXP closeParenthesis | identifier SUBPARAMLIST;
 SUBPARAMLIST ::= openParenthesis EXPLIST closeParenthesis | ;
 EXPLIST ::= EXP | EXP comma EXPLIST;
 PROC_CALL ::= identifier SUBPARAMLIST;
