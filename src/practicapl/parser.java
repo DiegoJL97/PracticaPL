@@ -411,7 +411,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("DCLLIST",6, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("DCLLIST",6, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
@@ -422,7 +422,7 @@ class CUP$parser$actions {
 		int valorSENTleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int valorSENTright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object valorSENT = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new String(valorSENT); 
+		 RESULT = new String(valorSENT+"\n"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SENTLIST",7, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -663,7 +663,7 @@ class CUP$parser$actions {
             {
               String RESULT =null;
 		 RESULT = new String("(void)"); 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("FORMAL_PARAMLIST",3, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("FORMAL_PARAMLIST",3, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
@@ -728,7 +728,7 @@ class CUP$parser$actions {
 		int valorASIGleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int valorASIGright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object valorASIG = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 RESULT = new String(valorASIG+"\n"); 
+		 RESULT = new String(valorASIG+";"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SENT",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -800,13 +800,13 @@ class CUP$parser$actions {
           case 39: // ASIG ::= ID assig EXP 
             {
               Object RESULT =null;
-		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
-		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
-		Object id = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		int valorIDleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int valorIDright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		Object valorID = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
 		int valorEXPleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int valorEXPright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object valorEXP = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new String(id+" = "+valorEXP); 
+		 RESULT = new String(valorID+" = "+valorEXP); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("ASIG",17, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -914,10 +914,10 @@ class CUP$parser$actions {
           case 49: // FACTOR ::= SIMPVALUE 
             {
               Object RESULT =null;
-		int valorSVleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
-		int valorSVright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
-		Object valorSV = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new String(valorSV); 
+		int valorSIMPVALUEleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int valorSIMPVALUEright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Object valorSIMPVALUE = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		 RESULT = new String(valorSIMPVALUE); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("FACTOR",22, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -954,7 +954,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("SUBPARAMLIST",24, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("SUBPARAMLIST",24, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
