@@ -6,7 +6,7 @@ const mensaje = 'Operacion realizada';
 procedure sumar(numero:INTEGER);
 const num = 123E456;
 begin
-	numero := numero + num;
+	numero := numero + num + 1;
 end;
 
 function restar (i:INTEGER): INTEGER;

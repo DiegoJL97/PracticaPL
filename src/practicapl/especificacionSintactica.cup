@@ -39,7 +39,7 @@ precedence left or,and;
 PRG::= program identifier semicolon BLQ dot {: for(int i=0; i<constantes.size();i++){ System.out.println(constantes.get(i)); } :} | unit identifier semicolon DCLLIST dot;
 BLQ::= DCLLIST begin SENTLIST:valorSL end {: RESULT = new String("{"+"\n"+valorSL+"\n"+"}"); :};
 DCLLIST::= DCLLIST DCL | ;
-SENTLIST::= SENT:valorSENT {: RESULT = new String(valorSENT+"\n"); :}| SENTLIST SENT;
+SENTLIST::= SENT:valorSENT {: RESULT = new String(valorSENT+""); :}| SENTLIST SENT;
 
 DCL::= DEFVAR | DEFCTE:valor {: constantes.add(valor); :}| DEFPROC:valor {: System.out.println(valor); :}| DEFFUN:valor {: System.out.println(valor); :};
 DEFVAR::= var DEFVARLIST semicolon;
@@ -50,7 +50,7 @@ DEFCTE::= constant CTELIST:valor {: RESULT = new String("#define "+valor); :};
 CTELIST::= identifier:id equal SIMPVALUE:valor semicolon {: RESULT = new String(id+" "+valor); :} | CTELIST:valorc identifier:id equal SIMPVALUE:valor semicolon {: RESULT = new String(valorc+" "+id+" "+valor); :};
 SIMPVALUE::= numeric_integer_const:i {: RESULT = Integer.parseInt(i); :}
 				| numeric_real_const:r {: RESULT = Float.parseFloat(r); :}
-				| string_const:st {: RESULT = new String(st); :};
+				| string_const:st {: RESULT = st; :};
 DEFPROC::= procedure identifier:id FORMAL_PARAMLIST:valorf semicolon BLQ:valorBLQ semicolon {: RESULT = new String("void "+id+" "+valorf+" "+valorBLQ); :};
 FORMAL_PARAMLIST::= openParenthesis FORMAL_PARAM:valor closeParenthesis {: RESULT = new String("("+valor+")"); :} | {: RESULT = new String("(void)"); :} ;
 FORMAL_PARAM::= VARLIST:valorv colon TBAS:valort {: RESULT = new String(valort+" "+valorv); :}| VARLIST:valorv colon TBAS:valort semicolon FORMAL_PARAM:fp {: RESULT = new String(valort+" "+valorv+", "+fp); :};
@@ -60,10 +60,10 @@ SENT ::= ASIG:valorASIG semicolon {: RESULT = new String(valorASIG+";"); :} | PR
 INC ::= to | downto;
 ASIG ::= ID:valorID assig EXP:valorEXP {: RESULT = new String(valorID+" = "+valorEXP); :};
 ID ::= identifier:id {: RESULT = new String(id); :};
-EXP ::= EXP:valorEXP1 OP:valorOP EXP:valorEXP2 {: RESULT = new String(valorEXP1+" "+valorOP+" "+valorEXP2); :} | FACTOR:valorFACTOR {: RESULT = new String(valorFACTOR); :};
-OP ::= OPARIT:valorOPARIT {: RESULT = new String(valorOPARIT); :};
+EXP ::= EXP:valorEXP1 OP:valorOP EXP:valorEXP2 {: RESULT = new String(valorEXP1+" "+valorOP+" "+valorEXP2); :} | FACTOR:valorFACTOR {: RESULT = new String(valorFACTOR+""); :};
+OP ::= OPARIT:valorOPARIT {: RESULT = new String(valorOPARIT+""); :};
 OPARIT ::= plus {: RESULT = new String("+"); :}| minus {: RESULT = new String("-"); :}| multiplication {: RESULT = new String("*"); :}| div {: RESULT = new String("/"); :}| mod{: RESULT = new String("%"); :};
-FACTOR ::= SIMPVALUE:valorSIMPVALUE {: RESULT = new String(valorSIMPVALUE); :} | openParenthesis EXP closeParenthesis | identifier SUBPARAMLIST;
+FACTOR ::= SIMPVALUE:valor {: RESULT = new String(valor+""); :} | openParenthesis EXP closeParenthesis | identifier SUBPARAMLIST;
 SUBPARAMLIST ::= openParenthesis EXPLIST closeParenthesis | ;
 EXPLIST ::= EXP | EXP comma EXPLIST;
 PROC_CALL ::= identifier SUBPARAMLIST;
