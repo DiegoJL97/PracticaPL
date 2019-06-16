@@ -1,8 +1,8 @@
 unit miLibreria;
 
-	var numero: INTEGER;
 
 	function sumar (i:INTEGER): INTEGER;
+	var calculadora: INTEGER;
 	begin
 		numero := numero + i;
 	end;

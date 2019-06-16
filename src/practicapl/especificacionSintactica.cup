@@ -41,10 +41,10 @@ BLQ::= DCLLIST begin SENTLIST:valorSL end {: RESULT = new String("{"+"\n"+valorS
 DCLLIST::= DCLLIST DCL | ;
 SENTLIST::= SENT:valorSENT {: RESULT = new String(valorSENT+""); :}| SENTLIST SENT;
 
-DCL::= DEFVAR | DEFCTE:valor {: constantes.add(valor); :}| DEFPROC:valor {: System.out.println(valor); :}| DEFFUN:valor {: System.out.println(valor); :};
-DEFVAR::= var DEFVARLIST semicolon;
-DEFVARLIST::= VARLIST colon TBAS | DEFVARLIST semicolon VARLIST colon TBAS;
-VARLIST::= identifier:id {: RESULT = new String(id); :}| identifier comma VARLIST;
+DCL::= DEFVAR:valor {: constantes.add(valor); :} | DEFCTE:valor {: constantes.add(valor); :}| DEFPROC:valor {: System.out.println(valor); :}| DEFFUN:valor {: System.out.println(valor); :};
+DEFVAR::= var DEFVARLIST:valorList{: RESULT = new String(valor+" "); :} semicolon;
+DEFVARLIST::= VARLIST:valor colon TBAS:valort {: RESULT = new String(valor+""+valort+" "); :} | DEFVARLIST:valorList semicolon VARLIST:valor colon TBAS:valort {: RESULT = new String(valorList+" "+valor+" "+valort); :};
+VARLIST::= identifier:id {: RESULT = new String(id); :}| identifier:id comma VARLIST:valor {: RESULT = new String(id+" "+valor); :};
 TBAS::= INTEGER {: RESULT = new String("int"); :}| REAL {: RESULT = new String("float"); :};
 DEFCTE::= constant CTELIST:valor {: RESULT = new String("#define "+valor); :};
 CTELIST::= identifier:id equal SIMPVALUE:valor semicolon {: RESULT = new String(id+" "+valor); :} | CTELIST:valorc identifier:id equal SIMPVALUE:valor semicolon {: RESULT = new String(valorc+" "+id+" "+valor); :};
@@ -63,7 +63,7 @@ ID ::= identifier:id {: RESULT = new String(id); :};
 EXP ::= EXP:valorEXP1 OP:valorOP EXP:valorEXP2 {: RESULT = new String(valorEXP1+" "+valorOP+" "+valorEXP2); :} | FACTOR:valorFACTOR {: RESULT = new String(valorFACTOR+""); :};
 OP ::= OPARIT:valorOPARIT {: RESULT = new String(valorOPARIT+""); :};
 OPARIT ::= plus {: RESULT = new String("+"); :}| minus {: RESULT = new String("-"); :}| multiplication {: RESULT = new String("*"); :}| div {: RESULT = new String("/"); :}| mod{: RESULT = new String("%"); :};
-FACTOR ::= SIMPVALUE:valor {: RESULT = new String(valor+""); :} | openParenthesis EXP closeParenthesis | identifier SUBPARAMLIST;
+FACTOR ::= SIMPVALUE:valor {: RESULT = new String(valor+""); :} | openParenthesis EXP closeParenthesis | identifier:id {: RESULT = new String(id); :} SUBPARAMLIST;
 SUBPARAMLIST ::= openParenthesis EXPLIST closeParenthesis | ;
 EXPLIST ::= EXP | EXP comma EXPLIST;
 PROC_CALL ::= identifier SUBPARAMLIST;
