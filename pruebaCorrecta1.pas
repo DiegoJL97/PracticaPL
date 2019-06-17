@@ -6,13 +6,14 @@ program prueba1;
 
 	function dividir : INTEGER;
 		begin
-			i := i div 5;
+			i := sumar;
+			dividir := i div 5;
 		end;
 
 	procedure sumar;
 		const num = 123E456;
 		begin
-			j := j + num;
+			sumar := j + num;
 		end;
 
 	begin
