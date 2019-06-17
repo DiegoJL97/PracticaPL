@@ -37,25 +37,15 @@ precedence left or,and;
 
 /* GRAMATICA */
 
-PRG::= 	program identifier semicolon BLQ:valorBLQ dot 	{: 	for(int i=0; i<constantes.size();i++){
-												 				System.out.println(constantes.get(i)); 
-												 			} 
-												 			System.out.println("");
+PRG::= 	program identifier semicolon BLQ:valorBLQ dot 	{: 	
 												 			funciones.add(new String("void main (void)"+valorBLQ));
-											  				for(int i=0; i<funciones.size();i++){
-												 				System.out.println(funciones.get(i)); 
-												 			} 
+											  				EscribirFichero ec = new EscribirFichero(constantes,funciones);
 														:} 
-		| unit identifier semicolon DCLLIST dot 		{: 	for(int i=0; i<constantes.size();i++){
-												 				System.out.println(constantes.get(i)); 
-												 			} 
-												 			System.out.println("");
-											  				for(int i=0; i<funciones.size();i++){
-												 				System.out.println(funciones.get(i)); 
-												 			} 
+		| unit identifier semicolon DCLLIST dot 		{: 
+															EscribirFichero ec = new EscribirFichero(constantes,funciones);	
 														:};
 		
-BLQ::= DCLLIST begin SENTLIST:valorSL end {: RESULT = new String("{"+"\n"+valorSL+"\n"+"}"+"\n"); :};
+BLQ::= DCLLIST begin SENTLIST:valorSL end {: RESULT = new String("{"+"\n"+valorSL+"\n"+"}"); :};
 
 DCLLIST::= 	DCLLIST DCL | ;
 
@@ -98,9 +88,9 @@ DEFFUN::= function identifier:id FORMAL_PARAMLIST:valorf colon TBAS:valorv semic
 
 SENT ::= 	ASIG:valorASIG semicolon {: RESULT = new String(valorASIG+";"); :} 
 			| PROC_CALL:valorPROC semicolon {: RESULT = new String(valorPROC+";"); :} 
-			| ifConditional EXPCOND then BLQ elseConditional BLQ 
-			| whileLoop EXPCOND doFor BLQ 
-			| repeat BLQ until EXPCOND semicolon 
+			| ifConditional EXPCOND:valorEXPCOND then BLQ:valorBLQ1 elseConditional BLQ:valorBLQ2 {: RESULT = new String("if ("+valorEXPCOND+") "+valorBLQ1+" else"+valorBLQ2); :}
+			| whileLoop EXPCOND:valorEXPCOND doFor BLQ:valorBLQ {: RESULT = new String("while ("+valorEXPCOND+")"+valorBLQ); :}
+			| repeat BLQ:valorBLQ until EXPCOND:valorEXPCOND semicolon {: RESULT = new String("do "+valorBLQ+" until ("+valorEXPCOND+")"); :}
 			| forLoop identifier:id assig EXP:valorEXP1 INC:valorINC EXP:valorEXP2 doFor BLQ:valorBLQ {: RESULT = new String("for("+id+"="+valorEXP1+";"+id+valorINC+valorEXP2+"+1;"+id+"="+id+"+1)"+valorBLQ); :};
 			
 INC ::= to {: RESULT = new String("<"); :}
@@ -134,7 +124,19 @@ EXPLIST ::= EXP:valorEXP {: RESULT = new String(valorEXP+""); :}
 PROC_CALL ::= identifier:id SUBPARAMLIST:valorSUB {: RESULT = new String(id+" "+valorSUB); :};
 
 /*SENTENCIAS DE CONTROL DE FLUJO*/
-EXPCOND ::= EXPCOND OPLOG EXPCOND | FACTORCOND;
-OPLOG ::= or | and ;
-FACTORCOND ::= EXP OPCOMP EXP | openParenthesis EXP closeParenthesis | not FACTORCOND;
-OPCOMP ::= less | greater | lessEqual | greaterEqual | equal;
+
+EXPCOND ::= EXPCOND:valorE1 OPLOG:valorOP EXPCOND:valorE2 {: RESULT = new String(valorE1+" "+valorOP+" "+valorE2); :}
+			| FACTORCOND:valorFC {: RESULT = new String(valorFC+""); :};
+			
+OPLOG ::= 	or {: RESULT = new String("||"); :}
+			| and {: RESULT = new String("&&"); :};
+
+FACTORCOND ::= 	EXP:valorEXP1 OPCOMP:valorOP EXP:valorEXP2 {: RESULT = new String(valorEXP1+" "+valorOP+" "+valorEXP2); :} 
+				| openParenthesis EXP:valorEXP closeParenthesis {: RESULT = new String("("+valorEXP+")"); :} 
+				| not FACTORCOND:valorFC {: RESULT = new String("!"+valorFC); :};
+				
+OPCOMP ::= 	less {: RESULT = new String("<"); :} 
+			| greater {: RESULT = new String(">"); :} 
+			| lessEqual {: RESULT = new String("<="); :}
+			| greaterEqual {: RESULT = new String(">="); :}
+			| equal {: RESULT = new String("=="); :};
