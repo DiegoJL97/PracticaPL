@@ -6,6 +6,25 @@ parser code
 {:
 	ArrayList<String> constantes = new ArrayList();
 	ArrayList<String> funciones = new ArrayList();
+	boolean funcion = false;
+	boolean ultimaFuncion = false;
+	private int tabulaciones = 1;
+	
+	private String calcularTabulaciones(){
+		String r = "";
+		for(int i=0; i<tabulaciones; i++){
+			r = r+"\t";
+		}
+		return r;
+	}
+	
+	private String calcularTabulacionesCorcheteFinal(){
+		String r = "";
+		for(int i=1; i<tabulaciones; i++){
+			r = r+"\t";
+		}
+		return r;
+	}
 :}
 
 /* TERMINALES */
@@ -45,12 +64,14 @@ PRG::= 	program identifier semicolon BLQ:valorBLQ dot 	{:
 															EscribirFichero.escribir(constantes,funciones);
 														:};
 		
-BLQ::= DCLLIST begin SENTLIST:valorSL end {: RESULT = new String("{"+"\n"+valorSL+"\n"+"}"); :};
+BLQ::= DCLLIST begin SENTLIST:valorSL end {: RESULT = new String("{"+"\n"+valorSL+"\n"+calcularTabulacionesCorcheteFinal()+"}"); :};
 
 DCLLIST::= 	DCLLIST DCL | ;
 
-SENTLIST::= SENT:valorSENT {: RESULT = new String(valorSENT+""); :} 
-			| SENTLIST:valorSL SENT:valorSENT {: RESULT = new String(valorSL+"\n"+valorSENT+""); :};
+SENTLIST::= SENT:valorSENT {:  	RESULT = new String(calcularTabulaciones()+valorSENT+""); :} 
+			| SENTLIST:valorSL {: ultimaFuncion = true; :} SENT:valorSENT {:	ultimaFuncion = false;
+																			 	RESULT = new String(valorSL+"\n"+calcularTabulaciones()+valorSENT+""); 
+																		  :};
 
 DCL::= 	DEFVAR:valor {: constantes.add(valor+""); :} 
 		| DEFCTE:valor {: constantes.add(valor); :}
@@ -84,19 +105,23 @@ FORMAL_PARAMLIST::= openParenthesis FORMAL_PARAM:valor closeParenthesis {: RESUL
 FORMAL_PARAM::= VARLIST:valorv colon TBAS:valort {: RESULT = new String(valort+" "+valorv); :}
 				| VARLIST:valorv colon TBAS:valort semicolon FORMAL_PARAM:fp {: RESULT = new String(valort+" "+valorv+", "+fp); :};
 				
-DEFFUN::= function identifier:id FORMAL_PARAMLIST:valorf colon TBAS:valorv semicolon BLQ:valorBLQ semicolon {: RESULT = new String(valorv+" "+id+" "+valorf+" "+valorBLQ); :};
+DEFFUN::= function {: funcion = true; :} identifier:id FORMAL_PARAMLIST:valorf colon TBAS:valorv semicolon BLQ:valorBLQ semicolon {: funcion = false; 
+																																	 RESULT = new String(valorv+" "+id+" "+valorf+" "+valorBLQ); :};
 
 SENT ::= 	ASIG:valorASIG semicolon {: RESULT = new String(valorASIG+";"); :} 
 			| PROC_CALL:valorPROC semicolon {: RESULT = new String(valorPROC+";"); :} 
-			| ifConditional EXPCOND:valorEXPCOND then BLQ:valorBLQ1 elseConditional BLQ:valorBLQ2 {: RESULT = new String("if ("+valorEXPCOND+") "+valorBLQ1+" else"+valorBLQ2); :}
-			| whileLoop EXPCOND:valorEXPCOND doFor BLQ:valorBLQ {: RESULT = new String("while ("+valorEXPCOND+")"+valorBLQ); :}
-			| repeat BLQ:valorBLQ until EXPCOND:valorEXPCOND semicolon {: RESULT = new String("do "+valorBLQ+" until ("+valorEXPCOND+")"); :}
-			| forLoop identifier:id assig EXP:valorEXP1 INC:valorINC EXP:valorEXP2 doFor BLQ:valorBLQ {: RESULT = new String("for("+id+"="+valorEXP1+";"+id+valorINC+valorEXP2+"+1;"+id+"="+id+"+1)"+valorBLQ); :};
+			| ifConditional {: tabulaciones++; :} EXPCOND:valorEXPCOND then BLQ:valorBLQ1 elseConditional BLQ:valorBLQ2 {: tabulaciones--; RESULT = new String("if ("+valorEXPCOND+") "+valorBLQ1+" else"+valorBLQ2); :}
+			| whileLoop {: tabulaciones++; :} EXPCOND:valorEXPCOND doFor BLQ:valorBLQ {: tabulaciones--; RESULT = new String("while ("+valorEXPCOND+")"+valorBLQ); :}
+			| repeat {: tabulaciones++; :} BLQ:valorBLQ until EXPCOND:valorEXPCOND semicolon {: tabulaciones--; RESULT = new String("do "+valorBLQ+" until ("+valorEXPCOND+")"); :}
+			| forLoop {: tabulaciones++; :} identifier:id assig EXP:valorEXP1 INC:valorINC EXP:valorEXP2 doFor BLQ:valorBLQ {: tabulaciones--; RESULT = new String("for("+id+"="+valorEXP1+";"+id+valorINC+valorEXP2+"+1;"+id+"="+id+"+1)"+valorBLQ); :};
 			
 INC ::= to {: RESULT = new String("<"); :}
 		| downto {: RESULT = new String(">"); :};
 
-ASIG ::= ID:valorID assig EXP:valorEXP {: RESULT = new String(valorID+" = "+valorEXP); :};
+ASIG ::= ID:valorID assig EXP:valorEXP {: 	if(funcion && ultimaFuncion){
+												RESULT = new String("return "+valorEXP);
+											} else {
+												RESULT = new String(valorID+" = "+valorEXP);}		:};
 
 ID ::= identifier:id {: RESULT = new String(id); :};
 
