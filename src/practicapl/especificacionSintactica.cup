@@ -7,8 +7,10 @@ parser code
 	ArrayList<String> constantes = new ArrayList();
 	ArrayList<String> funciones = new ArrayList();
 	boolean funcion = false;
+	boolean procedimiento = false;
 	boolean ultimaFuncion = false;
 	private int tabulaciones = 1;
+	boolean unaSentencia = true;
 	
 	private String calcularTabulaciones(){
 		String r = "";
@@ -64,27 +66,34 @@ PRG::= 	program identifier semicolon BLQ:valorBLQ dot 	{:
 															EscribirFichero.escribir(constantes,funciones);
 														:};
 		
-BLQ::= DCLLIST begin SENTLIST:valorSL end {: RESULT = new String("{"+"\n"+valorSL+"\n"+calcularTabulacionesCorcheteFinal()+"}"); :};
+BLQ::= DCLLIST:valorDCLLIST begin SENTLIST:valorSL end {: 	//if(funcion || procedimiento){
+																RESULT = new String("{"+"\n"+valorDCLLIST+valorSL+"\n"+calcularTabulacionesCorcheteFinal()+"}"); 
+															//} else {
+															//	RESULT = new String("{"+"\n"+valorSL+"\n"+calcularTabulacionesCorcheteFinal()+"}"); 
+															//}
+														:};
 
-DCLLIST::= 	DCLLIST DCL | ;
+DCLLIST::= 	DCLLIST:valorDCLLIST DCL:valorDCL {: RESULT = new String(valorDCLLIST+""+calcularTabulaciones()+valorDCL); :} 
+			| {: RESULT = new String(); :};
 
-SENTLIST::= SENT:valorSENT {:  	RESULT = new String(calcularTabulaciones()+valorSENT+""); :} 
-			| SENTLIST:valorSL {: ultimaFuncion = true; :} SENT:valorSENT {:	ultimaFuncion = false;
-																			 	RESULT = new String(valorSL+"\n"+calcularTabulaciones()+valorSENT+""); 
-																		  :};
+SENTLIST::= SENT:valorSENT {: RESULT = new String(calcularTabulaciones()+valorSENT+""); :} 
+			| SENTLIST:valorSL {: ultimaFuncion = true; unaSentencia = false; :} SENT:valorSENT {:	unaSentencia = true;
+																									ultimaFuncion = false;
+																			 						RESULT = new String(valorSL+"\n"+calcularTabulaciones()+valorSENT+""); 
+																		  	 					:};
 
-DCL::= 	DEFVAR:valor {: constantes.add(valor+""); :} 
-		| DEFCTE:valor {: constantes.add(valor); :}
+DCL::= 	DEFVAR:valor {: RESULT = new String(valor+""); :} 
+		| DEFCTE:valor {: constantes.add(valor); RESULT = new String("\n"); :}
 		| DEFPROC:valor {: funciones.add(valor+""); :}
 		| DEFFUN:valor {: funciones.add(valor+""); :};
 		
-DEFVAR::= var DEFVARLIST:valorList semicolon {: RESULT = new String(valorList+" "); :};
+DEFVAR::= var DEFVARLIST:valorList semicolon {: RESULT = new String(valorList+";"+"\n"); :};
 
-DEFVARLIST::= 	VARLIST:valor colon TBAS:valort {: RESULT = new String(valor+""+valort+" "); :} 
-				| DEFVARLIST:valorList semicolon VARLIST:valor colon TBAS:valort {: RESULT = new String(valorList+";"+valor+","+valort); :};
+DEFVARLIST::= 	VARLIST:valorVAR colon TBAS:valorTBAS {: RESULT = new String(valorTBAS+" "+valorVAR); :} 
+				| DEFVARLIST:valorDEFVAR semicolon VARLIST:valorVAR colon TBAS:valorTBAS {: RESULT = new String(valorDEFVAR+";"+"\n"+valorTBAS+" "+valorVAR); :};
 				
 VARLIST::= 	identifier:id {: RESULT = new String(id); :}
-			| identifier:id comma VARLIST:valor {: RESULT = new String(id+" "+valor); :};
+			| identifier:id comma VARLIST:valor {: RESULT = new String(id+","+valor); :};
 			
 TBAS::= INTEGER {: RESULT = new String("int"); :}| REAL {: RESULT = new String("float"); :};
 
@@ -97,7 +106,7 @@ SIMPVALUE::= 	numeric_integer_const:i {: RESULT = i; :}
 				| numeric_real_const:r {: RESULT = r; :}
 				| string_const:st {: RESULT = st; :};
 				
-DEFPROC::= procedure identifier:id FORMAL_PARAMLIST:valorf semicolon BLQ:valorBLQ semicolon {: RESULT = new String("void "+id+" "+valorf+" "+valorBLQ); :};
+DEFPROC::= procedure {: procedimiento=true; :} identifier:id FORMAL_PARAMLIST:valorf semicolon BLQ:valorBLQ semicolon {: procedimiento=false; RESULT = new String("void "+id+" "+valorf+" "+valorBLQ); :};
 
 FORMAL_PARAMLIST::= openParenthesis FORMAL_PARAM:valor closeParenthesis {: RESULT = new String("("+valor+")"); :} 
 					| {: RESULT = new String("(void)"); :} ;
@@ -118,7 +127,7 @@ SENT ::= 	ASIG:valorASIG semicolon {: RESULT = new String(valorASIG+";"); :}
 INC ::= to {: RESULT = new String("<"); :}
 		| downto {: RESULT = new String(">"); :};
 
-ASIG ::= ID:valorID assig EXP:valorEXP {: 	if(funcion && ultimaFuncion){
+ASIG ::= ID:valorID assig EXP:valorEXP {: 	if((funcion && ultimaFuncion) || (funcion && unaSentencia)){
 												RESULT = new String("return "+valorEXP);
 											} else {
 												RESULT = new String(valorID+" = "+valorEXP);}		:};
