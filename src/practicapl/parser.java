@@ -363,7 +363,7 @@ class CUP$parser$actions {
 		Object valorBLQ = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 	
 												 			funciones.add(new String("void main (void)"+valorBLQ));
-											  				EscribirFichero ec = new EscribirFichero(constantes,funciones);
+											  				EscribirFichero.escribir(constantes,funciones);
 														
               CUP$parser$result = parser.getSymbolFactory().newSymbol("PRG",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -388,7 +388,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 		 
-															EscribirFichero ec = new EscribirFichero(constantes,funciones);	
+															EscribirFichero.escribir(constantes,funciones);
 														
               CUP$parser$result = parser.getSymbolFactory().newSymbol("PRG",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -420,7 +420,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("DCLLIST",6, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("DCLLIST",6, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),RESULT);
             }
           return CUP$parser$result;
 

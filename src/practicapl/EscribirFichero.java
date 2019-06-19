@@ -4,18 +4,18 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-public class EscribirFichero {
+public final class EscribirFichero {
 	
-	private ArrayList<String> constantes = new ArrayList<>();
-	private ArrayList<String> funciones = new ArrayList<>();
+	private static String file;
 	
-	public EscribirFichero(ArrayList<String> constantes,ArrayList<String> funciones) {
-		this.constantes = constantes;
-		this.funciones = funciones;
+	public EscribirFichero() {}
+	
+	public static void escribir(ArrayList<String> constantes,ArrayList<String> funciones) {
 		FileWriter fichero = null;
         PrintWriter pw = null;
         try {
-            fichero = new FileWriter("salida.c");
+        	String ficheroSinExtension = quitarExtension();
+            fichero = new FileWriter(ficheroSinExtension+".c");
             pw = new PrintWriter(fichero);
             for(int i=0; i<constantes.size();i++){
  				pw.println(constantes.get(i));
@@ -37,4 +37,18 @@ public class EscribirFichero {
         }
 	}
 
+	private static String quitarExtension() {
+		String r = "";
+		int n = 0;
+		while(n < file.length() && file.charAt(n) != '.') {
+			r = r + file.charAt(n);
+			n = n+1;
+		}
+		return r;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+	
 }

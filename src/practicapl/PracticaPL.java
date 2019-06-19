@@ -23,12 +23,14 @@ public class PracticaPL {
     	System.out.println("Introduce el numero de casos de prueba: ");
     	int casosPrueba = Integer.parseInt(scan.nextLine());
 	    AnalizadorLexico lexico = null;
+	    EscribirFichero ec = new EscribirFichero();
 	    
 	    while(casosPrueba > 0){
 	    	
 	    	try {
 		    	System.out.println("Introduzca el nombre del archivo que quiere probar: ");
 		    	String file = scan.nextLine();
+		    	ec.setFile(file);
 		        lexico = new AnalizadorLexico(new java.io.FileReader(file));   
 		        parser sintactico = new parser(lexico);
 		        sintactico.parse();

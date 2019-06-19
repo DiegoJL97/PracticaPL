@@ -39,10 +39,10 @@ precedence left or,and;
 
 PRG::= 	program identifier semicolon BLQ:valorBLQ dot 	{: 	
 												 			funciones.add(new String("void main (void)"+valorBLQ));
-											  				EscribirFichero ec = new EscribirFichero(constantes,funciones);
+											  				EscribirFichero.escribir(constantes,funciones);
 														:} 
 		| unit identifier semicolon DCLLIST dot 		{: 
-															EscribirFichero ec = new EscribirFichero(constantes,funciones);	
+															EscribirFichero.escribir(constantes,funciones);
 														:};
 		
 BLQ::= DCLLIST begin SENTLIST:valorSL end {: RESULT = new String("{"+"\n"+valorSL+"\n"+"}"); :};
