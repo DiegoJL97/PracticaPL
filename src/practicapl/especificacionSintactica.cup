@@ -66,14 +66,14 @@ PRG::= 	program identifier semicolon BLQ:valorBLQ dot 	{:
 															EscribirFichero.escribir(constantes,funciones);
 														:};
 		
-BLQ::= DCLLIST:valorDCLLIST begin SENTLIST:valorSL end {: 	//if(funcion || procedimiento){
-																RESULT = new String("{"+"\n"+valorDCLLIST+valorSL+"\n"+calcularTabulacionesCorcheteFinal()+"}"); 
-															//} else {
-															//	RESULT = new String("{"+"\n"+valorSL+"\n"+calcularTabulacionesCorcheteFinal()+"}"); 
-															//}
-														:};
+BLQ::= DCLLIST:valorDCLLIST begin SENTLIST:valorSL end {: RESULT = new String("{"+"\n"+valorDCLLIST+valorSL+"\n"+calcularTabulacionesCorcheteFinal()+"}"); :};
 
-DCLLIST::= 	DCLLIST:valorDCLLIST DCL:valorDCL {: RESULT = new String(valorDCLLIST+""+calcularTabulaciones()+valorDCL); :} 
+DCLLIST::= 	DCLLIST:valorDCLLIST DCL:valorDCL 	{: 	if(valorDCL.equals("")){
+														RESULT = new String(valorDCLLIST+""+valorDCL); 
+													} else {
+														RESULT = new String(valorDCLLIST+""+calcularTabulaciones()+valorDCL); 
+													}
+												:} 
 			| {: RESULT = new String(); :};
 
 SENTLIST::= SENT:valorSENT {: RESULT = new String(calcularTabulaciones()+valorSENT+""); :} 
@@ -83,9 +83,9 @@ SENTLIST::= SENT:valorSENT {: RESULT = new String(calcularTabulaciones()+valorSE
 																		  	 					:};
 
 DCL::= 	DEFVAR:valor {: RESULT = new String(valor+""); :} 
-		| DEFCTE:valor {: constantes.add(valor); RESULT = new String("\n"); :}
-		| DEFPROC:valor {: funciones.add(valor+""); :}
-		| DEFFUN:valor {: funciones.add(valor+""); :};
+		| DEFCTE:valor {: constantes.add(valor); RESULT = new String(""); :}
+		| DEFPROC:valor {: funciones.add(valor+""); RESULT = new String(""); :}
+		| DEFFUN:valor {: funciones.add(valor+""); RESULT = new String(""); :};
 		
 DEFVAR::= var DEFVARLIST:valorList semicolon {: RESULT = new String(valorList+";"+"\n"); :};
 
