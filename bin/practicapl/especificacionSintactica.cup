@@ -11,6 +11,7 @@ parser code
 	boolean ultimaFuncion = false;
 	private int tabulaciones = 1;
 	boolean unaSentencia = true;
+	boolean incrementoFor = true;
 	
 	private String calcularTabulaciones(){
 		String r = "";
@@ -60,15 +61,16 @@ precedence left or,and;
 
 PRG::= 	program identifier semicolon BLQ:valorBLQ dot 	{: 	
 												 			funciones.add(new String("void main (void)"+valorBLQ));
-											  				EscribirFichero.escribir(constantes,funciones);
+											  				EscribirFichero.escribir(constantes,funciones,null);
 														:} 
-		| unit identifier semicolon DCLLIST dot 		{: 
-															EscribirFichero.escribir(constantes,funciones);
+		| unit identifier:id semicolon DCLLIST dot 		{: 
+															String libreria = "// Libreria: "+id;
+															EscribirFichero.escribir(constantes,funciones,libreria);
 														:};
 		
 BLQ::= DCLLIST:valorDCLLIST begin SENTLIST:valorSL end {: RESULT = new String("{"+"\n"+valorDCLLIST+valorSL+"\n"+calcularTabulacionesCorcheteFinal()+"}"); :};
 
-DCLLIST::= 	DCLLIST:valorDCLLIST DCL:valorDCL 	{: 	if(valorDCL.equals("")){
+DCLLIST::= 	DCLLIST:valorDCLLIST DCL:valorDCL 	{: if(valorDCL.equals("")){
 														RESULT = new String(valorDCLLIST+""+valorDCL); 
 													} else {
 														RESULT = new String(valorDCLLIST+""+calcularTabulaciones()+valorDCL); 
@@ -122,10 +124,17 @@ SENT ::= 	ASIG:valorASIG semicolon {: RESULT = new String(valorASIG+";"); :}
 			| ifConditional {: tabulaciones++; :} EXPCOND:valorEXPCOND then BLQ:valorBLQ1 elseConditional BLQ:valorBLQ2 {: tabulaciones--; RESULT = new String("if ("+valorEXPCOND+") "+valorBLQ1+" else"+valorBLQ2); :}
 			| whileLoop {: tabulaciones++; :} EXPCOND:valorEXPCOND doFor BLQ:valorBLQ {: tabulaciones--; RESULT = new String("while ("+valorEXPCOND+")"+valorBLQ); :}
 			| repeat {: tabulaciones++; :} BLQ:valorBLQ until EXPCOND:valorEXPCOND semicolon {: tabulaciones--; RESULT = new String("do "+valorBLQ+" until ("+valorEXPCOND+")"); :}
-			| forLoop {: tabulaciones++; :} identifier:id assig EXP:valorEXP1 INC:valorINC EXP:valorEXP2 doFor BLQ:valorBLQ {: tabulaciones--; RESULT = new String("for("+id+"="+valorEXP1+";"+id+valorINC+valorEXP2+"+1;"+id+"="+id+"+1)"+valorBLQ); :};
+			| forLoop {: tabulaciones++; :} identifier:id assig EXP:valorEXP1 INC:valorINC EXP:valorEXP2 doFor BLQ:valorBLQ {: tabulaciones--; 
+																																if(incrementoFor){
+																																	RESULT = new String("for("+id+"="+valorEXP1+";"+id+valorINC+valorEXP2+"+1;"+id+"="+id+"+1)"+valorBLQ);
+																																} else {
+																																	incrementoFor = true;
+																																	RESULT = new String("for("+id+"="+valorEXP1+";"+id+valorINC+valorEXP2+"-1;"+id+"="+id+"-1)"+valorBLQ);
+																																} 
+																															:};
 			
 INC ::= to {: RESULT = new String("<"); :}
-		| downto {: RESULT = new String(">"); :};
+		| downto {: incrementoFor = false; RESULT = new String(">"); :};
 
 ASIG ::= ID:valorID assig EXP:valorEXP {: 	if((funcion && ultimaFuncion) || (funcion && unaSentencia)){
 												RESULT = new String("return "+valorEXP);

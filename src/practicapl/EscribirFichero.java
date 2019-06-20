@@ -10,13 +10,17 @@ public final class EscribirFichero {
 	
 	public EscribirFichero() {}
 	
-	public static void escribir(ArrayList<String> constantes,ArrayList<String> funciones) {
+	public static void escribir(ArrayList<String> constantes,ArrayList<String> funciones,String libreria) {
 		FileWriter fichero = null;
         PrintWriter pw = null;
         try {
         	String ficheroSinExtension = quitarExtension();
             fichero = new FileWriter(ficheroSinExtension+".c");
             pw = new PrintWriter(fichero);
+            if(libreria != null) {
+            	pw.println(libreria);
+            	pw.println();
+            }
             for(int i=0; i<constantes.size();i++){
  				pw.println(constantes.get(i));
  			} 

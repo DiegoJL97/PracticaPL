@@ -344,6 +344,7 @@ public class parser extends java_cup.runtime.lr_parser {
 	boolean ultimaFuncion = false;
 	private int tabulaciones = 1;
 	boolean unaSentencia = true;
+	boolean incrementoFor = true;
 	
 	private String calcularTabulaciones(){
 		String r = "";
@@ -395,7 +396,7 @@ class CUP$parser$actions {
 		Object valorBLQ = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 	
 												 			funciones.add(new String("void main (void)"+valorBLQ));
-											  				EscribirFichero.escribir(constantes,funciones);
+											  				EscribirFichero.escribir(constantes,funciones,null);
 														
               CUP$parser$result = parser.getSymbolFactory().newSymbol("PRG",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -419,8 +420,12 @@ class CUP$parser$actions {
           case 2: // PRG ::= unit identifier semicolon DCLLIST dot 
             {
               Object RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
 		 
-															EscribirFichero.escribir(constantes,funciones);
+															String libreria = "// Libreria: "+id;
+															EscribirFichero.escribir(constantes,funciones,libreria);
 														
               CUP$parser$result = parser.getSymbolFactory().newSymbol("PRG",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -451,7 +456,7 @@ class CUP$parser$actions {
 		int valorDCLleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int valorDCLright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object valorDCL = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 	if(valorDCL.equals("")){
+		 if(valorDCL.equals("")){
 														RESULT = new String(valorDCLLIST+""+valorDCL); 
 													} else {
 														RESULT = new String(valorDCLLIST+""+calcularTabulaciones()+valorDCL); 
@@ -738,7 +743,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
  procedimiento=true; 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$1",32, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),((java_cup.runtime.Symbol)CUP$parser$stack.peek()),RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$1",32, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
@@ -821,7 +826,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
  funcion = true; 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$2",33, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$2",33, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),RESULT);
             }
           return CUP$parser$result;
 
@@ -878,7 +883,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
  tabulaciones++; 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$3",34, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$3",34, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
@@ -907,7 +912,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
  tabulaciones++; 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$4",35, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$4",35, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),RESULT);
             }
           return CUP$parser$result;
 
@@ -959,7 +964,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
  tabulaciones++; 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$6",37, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$6",37, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()),RESULT);
             }
           return CUP$parser$result;
 
@@ -984,7 +989,14 @@ class CUP$parser$actions {
 		int valorBLQleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int valorBLQright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object valorBLQ = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 tabulaciones--; RESULT = new String("for("+id+"="+valorEXP1+";"+id+valorINC+valorEXP2+"+1;"+id+"="+id+"+1)"+valorBLQ); 
+		 tabulaciones--; 
+																																if(incrementoFor){
+																																	RESULT = new String("for("+id+"="+valorEXP1+";"+id+valorINC+valorEXP2+"+1;"+id+"="+id+"+1)"+valorBLQ);
+																																} else {
+																																	incrementoFor = true;
+																																	RESULT = new String("for("+id+"="+valorEXP1+";"+id+valorINC+valorEXP2+"-1;"+id+"="+id+"-1)"+valorBLQ);
+																																} 
+																															
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SENT",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-8)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1002,7 +1014,7 @@ class CUP$parser$actions {
           case 45: // INC ::= downto 
             {
               Object RESULT =null;
-		 RESULT = new String(">"); 
+		 incrementoFor = false; RESULT = new String(">"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("INC",30, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
