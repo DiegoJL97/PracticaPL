@@ -11,7 +11,7 @@ end;
 
 function restar (i:INTEGER): INTEGER;
 begin
-	i := i - 234;
+	restar := i - 234;
 end;
 
 begin

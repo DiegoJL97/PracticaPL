@@ -7,10 +7,9 @@ parser code
 	ArrayList<String> constantes = new ArrayList();
 	ArrayList<String> funciones = new ArrayList();
 	boolean funcion = false;
+	String nombreFuncion = "";
 	boolean procedimiento = false;
-	boolean ultimaFuncion = false;
 	private int tabulaciones = 1;
-	boolean unaSentencia = true;
 	boolean incrementoFor = true;
 	
 	private String calcularTabulaciones(){
@@ -79,10 +78,9 @@ DCLLIST::= 	DCLLIST:valorDCLLIST DCL:valorDCL 	{: if(valorDCL.equals("")){
 			| {: RESULT = new String(); :};
 
 SENTLIST::= SENT:valorSENT {: RESULT = new String(calcularTabulaciones()+valorSENT+""); :} 
-			| SENTLIST:valorSL {: ultimaFuncion = true; unaSentencia = false; :} SENT:valorSENT {:	unaSentencia = true;
-																									ultimaFuncion = false;
-																			 						RESULT = new String(valorSL+"\n"+calcularTabulaciones()+valorSENT+""); 
-																		  	 					:};
+			| SENTLIST:valorSL SENT:valorSENT {:
+												RESULT = new String(valorSL+"\n"+calcularTabulaciones()+valorSENT+""); 
+						  	 					:};
 
 DCL::= 	DEFVAR:valor {: RESULT = new String(valor+""); :} 
 		| DEFCTE:valor {: constantes.add(valor); RESULT = new String(""); :}
@@ -116,8 +114,8 @@ FORMAL_PARAMLIST::= openParenthesis FORMAL_PARAM:valor closeParenthesis {: RESUL
 FORMAL_PARAM::= VARLIST:valorv colon TBAS:valort {: RESULT = new String(valort+" "+valorv); :}
 				| VARLIST:valorv colon TBAS:valort semicolon FORMAL_PARAM:fp {: RESULT = new String(valort+" "+valorv+", "+fp); :};
 				
-DEFFUN::= function {: funcion = true; :} identifier:id FORMAL_PARAMLIST:valorf colon TBAS:valorv semicolon BLQ:valorBLQ semicolon {: funcion = false; 
-																																	 RESULT = new String(valorv+" "+id+" "+valorf+" "+valorBLQ); :};
+DEFFUN::= function identifier:id {: funcion = true; nombreFuncion = id; :} FORMAL_PARAMLIST:valorf colon TBAS:valorv semicolon BLQ:valorBLQ semicolon {: funcion = false; nombreFuncion = "";
+																																	 						RESULT = new String(valorv+" "+id+" "+valorf+" "+valorBLQ); :};
 
 SENT ::= 	ASIG:valorASIG semicolon {: RESULT = new String(valorASIG+";"); :} 
 			| PROC_CALL:valorPROC semicolon {: RESULT = new String(valorPROC+";"); :} 
@@ -136,7 +134,7 @@ SENT ::= 	ASIG:valorASIG semicolon {: RESULT = new String(valorASIG+";"); :}
 INC ::= to {: RESULT = new String("<"); :}
 		| downto {: incrementoFor = false; RESULT = new String(">"); :};
 
-ASIG ::= ID:valorID assig EXP:valorEXP {: 	if((funcion && ultimaFuncion) || (funcion && unaSentencia)){
+ASIG ::= ID:valorID assig EXP:valorEXP {: 	if(funcion && nombreFuncion.equals(valorID)){
 												RESULT = new String("return "+valorEXP);
 											} else {
 												RESULT = new String(valorID+" = "+valorEXP);}		:};

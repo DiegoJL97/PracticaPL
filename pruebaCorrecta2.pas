@@ -4,12 +4,12 @@ unit miLibreria;
 	function sumar (i:INTEGER): INTEGER;
 	var calculadora: INTEGER;
 	begin
-		numero := numero + i;
+		sumar := numero + i;
 	end;
 
 	function restar (j:INTEGER): INTEGER;
 	begin
-		numero := numero - i;
+		restar := numero - i;
 	end;
 
 	function multPorSumas (i:INTEGER; k:INTEGER): INTEGER;
@@ -18,11 +18,12 @@ unit miLibreria;
 		for j := 0 to i do begin
 			numero := numero + k;
 		end
+		multPorSumas := numero ; 
 	end;
 
 	function dividir (i:INTEGER): INTEGER;
 	begin
-		numero := numero div i;
+		dividir := numero div i;
 	end;
 
 .
