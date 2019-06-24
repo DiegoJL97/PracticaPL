@@ -9,7 +9,7 @@ unit miLibreria;
 
 	function restar (j:INTEGER): INTEGER;
 	begin
-		restar := numero - i;
+		restar := numero - j;
 	end;
 
 	function multPorSumas (i:INTEGER; k:INTEGER): INTEGER;

@@ -13,7 +13,7 @@ program prueba1;
 	procedure sumar;
 		const num = 123E456;
 		begin
-			num := j + num;
+			j := j + num;
 		end;
 
 	begin
